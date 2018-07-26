@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/lj_view_title_bar" />
+
+    <com.android.baosteel.lan.baseui.customview.LJRefreshLayout
+        android:id="@+id/view_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title"
+        android:paddingLeft="10dp">
+
+        <com.android.baosteel.lan.baseui.customview.LJRefreshListView
+            android:id="@+id/list_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@color/divider"
+            android:dividerHeight="0.1dp"
+            android:fadingEdge="none"
+            android:listSelector="@android:color/transparent"
+            android:overScrollMode="never" />
+
+    </com.android.baosteel.lan.baseui.customview.LJRefreshLayout>
+
+    <TextView
+        android:id="@+id/txt_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="未搜索到相关内容"
+        android:visibility="gone"
+        android:textColor="@color/lj_textcolor_main_black"
+        android:textSize="16sp" />
+</RelativeLayout>

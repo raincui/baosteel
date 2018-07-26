@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title"
+        layout="@layout/lj_view_title_bar" />
+
+
+    <RadioGroup
+        android:id="@+id/rg_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="40dp"
+            android:button="@null"
+            android:checked="true"
+            android:drawablePadding="15dp"
+            android:drawableBottom="@drawable/selector_checkbox_line"
+            android:text="推送消息"
+            android:textColor="@drawable/selector_txt_color"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/rb_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:drawableBottom="@drawable/selector_checkbox_line"
+            android:drawablePadding="15dp"
+            android:text="微矩阵"
+            android:checked="false"
+            android:textColor="@drawable/selector_txt_color"
+            android:textSize="16sp" />
+    </RadioGroup>
+
+    <FrameLayout
+        android:id="@+id/fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

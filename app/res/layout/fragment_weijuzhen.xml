@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <com.android.baosteel.lan.baseui.customview.LJRefreshLayout
+        android:id="@+id/view_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp">
+        <com.android.baosteel.lan.baseui.customview.LJRefreshListView
+            android:id="@+id/list_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:listSelector="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@color/divider"
+            android:overScrollMode="never"
+            android:fadingEdge="none"
+            android:dividerHeight="0.1dp"/>
+
+    </com.android.baosteel.lan.baseui.customview.LJRefreshLayout>
+</LinearLayout>

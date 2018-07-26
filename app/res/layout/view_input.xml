@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#99000000" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#f8f8f8"
+        android:paddingBottom="15dp" >
+
+        <TextView
+            android:id="@+id/btn_cancel_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:padding="9dp"
+            android:background="@android:color/transparent"
+            android:text="取消"
+            android:textColor="@color/txt2a2a2a"
+            android:textSize="14sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="评论"
+            android:textSize="18sp"
+            android:padding="9dp"
+            android:textColor="@color/txt2a2a2a"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/btn_commit_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="6dp"
+            android:padding="9dp"
+            android:background="@android:color/transparent"
+            android:text="发送"
+            android:textColor="@drawable/selector_blue_txt_color"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/edit_talk"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_below="@+id/btn_cancel_edit"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/greylinebtn_normal"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:padding="3dp"
+            android:textColor="@color/txt2a2a2a"
+            android:textSize="15sp" />
+    </RelativeLayout>
+</LinearLayout>

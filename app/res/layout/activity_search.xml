@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:layout_toLeftOf="@+id/btn_close"
+            android:id="@+id/edit_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:hint="输入关键字"
+            android:paddingLeft="15dp"
+            android:singleLine="true"
+            android:imeOptions="actionSearch"
+            android:textColor="@color/txt2a2a2a"
+            android:textColorHint="#cfcfcf"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/btn_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:onClick="onBack"
+            android:src="@drawable/close" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/divider" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/list_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@android:color/transparent"
+        android:listSelector="@android:color/transparent"
+        android:dividerHeight="0.1dp"
+        android:divider="@color/divider"
+        android:overScrollMode="never" />
+</LinearLayout>

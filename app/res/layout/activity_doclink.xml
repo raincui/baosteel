@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/back"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="返回"
+            android:clickable="true"
+            android:onClick="goBack"
+            android:textColor="@color/txt2a2a2a"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/btn_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/btn_back"
+            android:gravity="center_vertical"
+            android:onClick="onBack"
+            android:clickable="true"
+            android:paddingLeft="10dp"
+            android:text="关闭"
+            android:textColor="@color/txt2a2a2a"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:maxWidth="140dp"
+            android:singleLine="true"
+            android:textColor="#252525"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/btn_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:src="@drawable/view_icon_back_white"
+            android:visibility="invisible" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/divider" />
+    </RelativeLayout>
+
+    <com.android.baosteel.lan.baseui.customview.LJWebView
+        android:id="@+id/web"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

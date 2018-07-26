@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rly_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/weidingyue" />
+
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_toRightOf="@+id/img_checkbox"
+            android:minWidth="70dp"
+            android:text="要闻"
+
+            android:textColor="@color/txt2a2a2a"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txt_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/txt_name"
+            android:text="集团要闻，内容包括：重大活动、改革创新、经营活动等。"
+            android:textColor="@color/txt999999"
+            android:textSize="12sp"
+            android:layout_toLeftOf="@+id/img_handle"
+            android:paddingBottom="45dp"/>
+        <ImageView
+            android:id="@+id/img_handle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/drag"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+</FrameLayout>

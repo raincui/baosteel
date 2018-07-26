@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <ImageView
+        android:id="@+id/btn_left"
+        android:layout_width="wrap_content"
+        android:layout_height="50sp"
+        android:onClick="onBack"
+        android:paddingLeft="10dp"
+        android:paddingRight="15dp"
+        android:src="@drawable/back" />
+
+    <RadioGroup
+        android:id="@+id/rg_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="40dp"
+            android:button="@null"
+            android:checked="true"
+            android:drawableBottom="@drawable/selector_checkbox_line"
+            android:drawablePadding="15dp"
+            android:text="最热评论"
+            android:textColor="@drawable/selector_txt_color"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/rb_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:checked="false"
+            android:drawableBottom="@drawable/selector_checkbox_line"
+            android:drawablePadding="15dp"
+            android:text="最新评论"
+            android:textColor="@drawable/selector_txt_color"
+            android:textSize="16sp" />
+    </RadioGroup>
+
+
+    <FrameLayout
+        android:id="@+id/fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_talk"
+        android:layout_below="@+id/rg_menu" />
+
+    <TextView
+        android:id="@+id/btn_talk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/shape_stroke_grey"
+        android:gravity="center_vertical"
+        android:hint="写评论"
+        android:imeOptions="actionDone"
+        android:minHeight="30dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/txt2a2a2a"
+        android:textColorHint="@color/txt999999"
+        android:textSize="14sp" />
+
+    <include
+        android:id="@+id/rly_edit_talk"
+        layout="@layout/view_input"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+</RelativeLayout>

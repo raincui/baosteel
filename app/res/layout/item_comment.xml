@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:img ="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img_head"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        img:placeholderImage="@drawable/defualt_head"
+        img:placeholderImageScaleType = "fitXY"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/img_head"
+        android:layout_toRightOf="@+id/img_head"
+        android:textColor="@color/txtblue"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/txt_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txt_name"
+        android:layout_below="@+id/txt_name"
+        android:layout_marginTop="2dp"
+        android:textColor="#cfcfcf"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/txt_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txt_name"
+        android:layout_below="@+id/txt_time"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/txt2a2a2a"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/btn_good"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:padding="10dp"
+        android:src="@drawable/zan" />
+
+    <TextView
+        android:id="@+id/txt_good_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txt_name"
+        android:textColor="@color/txtblue"
+        android:textSize="14sp"
+        android:layout_toLeftOf="@+id/btn_good" />
+</RelativeLayout>
