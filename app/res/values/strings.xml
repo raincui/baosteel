@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Baosteel</string>
+    <!--<string name="AgentService">http://202.101.47.84/iPlatMBS/AgentService</string>-->
+    <!--<string name="LoginService">http://202.101.47.84/iPlatMBS/LoginService</string>-->
+
+    <string name="DebugModeUserId">178297</string>
+    <string name="DebugModeURL">http://10.60.17.201:8086/baosteel_dss/EiService</string>
+
+    <string name="iplat4m_code">com.baosight.iplat4mandroid</string>
+    <string name="iplat4m_code1">com.baosight.iplat4mandroid</string>
+    <string name="iplat4m_apk_url">http://202.101.47.84/iPlatMBS/appstore/release/com.baosight.iplat4mandroidtest/v1.0.0/com.baosight.iplat4mandroidtest.apk</string>
+    <string name="tip_error">网络请求超时</string>
+
+
+    <string name="LoginService">http://mobile.baosteel.com/iPlatMBS/LoginService</string>
+    <string name="AgentService">http://mobile.baosteel.com/iPlatMBS/AgentService</string>
+    <string name="checkStatus_serviceUrl">http://mobile.baosteel.com/iPlatMBS-B/ServiceCheckServlet</string>
+</resources>

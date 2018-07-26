@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="title_bar_left">#20304b</color>
+    <color name="title_bar_right">#20304b</color>
+    <color name="lj_color_divider">#dfdfdf</color>
+    <color name="lj_color_white">#ffffff</color>
+    <color name="lj_color_blue">#0093ff</color>
+    <color name="lj_color_success">#64A815</color>
+    <color name="lj_color_error">#FA3335</color>
+    <color name="lj_color_gray_f6">#F6992B</color>
+    <color name="lj_color_transparent">#00000000</color>
+
+    <color name="lj_app_bg_color">#efefef</color>
+    <color name="lj_title_text_color">#3f3f3f</color>
+    <color name="lj_textcolor_main_gray">#999999</color>
+    <color name="lj_textcolor_main_black">#68758e</color>
+    <color name="lj_textcolor_second_gray">#dfdfdf</color>
+    <color name="lj_textcolor_hint">#c5c5c5</color>
+    <color name="lj_textcolor_second_black">#666666</color>
+    <color name="lj_table_view_unable">#50c5c5c5</color>
+
+    <color name="lj_tab_view_deep_gray">#68758e</color>
+    <color name="lj_tab_view_white_60alpha">#99ffffff</color>
+
+    <color name="txt2a2a2a">#2a2a2a</color>
+    <color name="txt999999">#999999</color>
+    <color name="txtblue">#004b9d</color>
+    <color name="divider">#dbdbdb</color>
+
+</resources>
