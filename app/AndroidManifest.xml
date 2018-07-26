@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.baosight.lan">
+
+    <uses-sdk android:minSdkVersion="15" />
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+
+    <!--<application-->
+        <!--android:name="com.android.baosteel.lan.baseui.MApplication"-->
+        <!--android:icon="@drawable/ic_launcher"-->
+        <!--android:label="@string/app_name"-->
+        <!--android:theme="@style/AppTheme">-->
+        <!--<activity android:name="com.android.baosteel.lan.baseui.MainActivity">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+        <!--<activity android:name="com.android.baosteel.lan.express.ExpressActivity"></activity>-->
+        <!--<activity android:name="com.android.baosteel.lan.news.NewsDetailActivity"-->
+            <!--android:launchMode="singleTask"-->
+            <!--android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>-->
+        <!--<activity android:name="com.android.baosteel.lan.news.SpecialNewsActivity"></activity>-->
+        <!--<activity android:name="com.android.baosteel.lan.baseui.DocLinkActivity"></activity>-->
+        <!--<activity android:name="com.android.baosteel.lan.news.SearchActivity"></activity>-->
+        <!--<activity android:name="com.android.baosteel.lan.news.SearchListActivity"></activity>-->
+        <!--<activity android:name="com.android.baosteel.lan.news.comment.CommentActivity"-->
+            <!--android:screenOrientation="portrait"></activity>-->
+        <!--<activity android:name="com.android.baosteel.lan.express.WechatListActivity"-->
+            <!--android:screenOrientation="portrait"></activity>-->
+        <!--<activity android:name="com.android.baosteel.lan.news.LabelNewsActivity"-->
+            <!--android:launchMode="singleTask"/>-->
+        <!--<activity android:name="com.android.baosteel.lan.news.comment.MineInfoActivity" />-->
+        <!--<activity android:name="com.android.baosteel.lan.news.PhotoBrowserActivity"-->
+            <!--android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>-->
+    <!--</application>-->
+
+</manifest>
