@@ -27,11 +27,11 @@ public abstract class BusinessCallback {
     public void callback(String json) {
         try {
             JSONObject jo = new JSONObject(json);
-            String status = jo.optString("status");
-            if ("1".equals(status)) {
+            String status = jo.optString("code");
+            if ("1000".equals(status)) {
                 subCallback(true,json);
             } else {
-                String msg = jo.optString("data");
+                String msg = jo.optString("desc");
                 String msg1 = jo.optString("msg");
                 if("{}".equals(msg))msg = "网络请求超时";
                 if(TextUtils.isEmpty(msg)&&TextUtils.isEmpty(msg1))msg1 = "网络请求超时";

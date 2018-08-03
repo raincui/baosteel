@@ -1,6 +1,7 @@
 package com.android.baosteel.lan.news;
 
 import com.android.baosteel.lan.basebusiness.entity.ColumnInfo;
+import com.android.baosteel.lan.basebusiness.util.JsonDataParser;
 import com.android.baosteel.lan.basebusiness.util.SharedPrefAction;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -46,17 +47,18 @@ public class ColumnInfoHelper {
      */
     public void cacheData(JSONObject info) {
         localData.clear();
-        localData.add(new ColumnInfo("推荐", -1));
-        JSONArray ja = info.optJSONArray("data");
-        Type type = new TypeToken<List<ColumnInfo>>() {
-        }.getType();
-        editableData = new Gson().fromJson(ja.toString(), type);
+//        localData.add(new ColumnInfo("推荐", -1));
+//        JSONArray ja = info.optJSONArray("data");
+//        Type type = new TypeToken<List<ColumnInfo>>() {
+//        }.getType();
+//        editableData = new Gson().fromJson(ja.toString(), type);
+        editableData = JsonDataParser.j2ColumnInfos(info);
         //去除强制订阅的数据及排序
         int size = editableData.size();
         for (int i = size - 1; i >= 0; i--) {
             ColumnInfo cf = editableData.get(i);
             if (cf.isQZLook()) {
-                localData.add(1, cf);
+                localData.add(0, cf);
                 editableData.remove(i);
                 continue;
             }

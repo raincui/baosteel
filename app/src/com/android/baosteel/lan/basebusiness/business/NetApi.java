@@ -2,17 +2,25 @@ package com.android.baosteel.lan.basebusiness.business;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 
+import com.android.baosteel.lan.basebusiness.http.OKHttpClientUtil;
+import com.android.baosteel.lan.basebusiness.http.OkHttpAsyncCallback;
 import com.android.baosteel.lan.basebusiness.util.LogUtil;
 import com.baosight.iplat4mandroid.login.UserSession;
 import com.baosight.iplat4mlibrary.core.ei.agent.EiServiceAgent;
 import com.baosight.iplat4mlibrary.core.ei.eiinfo.EiInfo;
 import com.baosight.iplat4mlibrary.core.uitls.Iplat4mHelper;
+import com.baosight.iplat4mlibrary.core.uitls.json.JSONObjectUtil;
 import com.baosight.iplat4mlibrary.login.HelperConfig;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,58 +31,76 @@ import java.util.Map;
  * Create DateTime: 2017/3/1
  */
 public class NetApi {
-    private static EiServiceAgent api;
-    static HelperConfig helperConfig;
     static Context mC;
 
     public static void init(Activity context) {
-        helperConfig = new HelperConfig();
-        helperConfig.setLoginService(Iplat4mHelper.getLoginServiceDef());
-        helperConfig.setAgentService(Iplat4mHelper.getAgentServiceDef());
-        Iplat4mHelper mIplat4mStarter = Iplat4mHelper.getIplat4mHelper(helperConfig);
-        mIplat4mStarter.start(context);
         mC = context;
+
     }
 
-    public static void call(Object info, BusinessCallback callback) {
-        call(info, callback, "callback");
-    }
+    public static void call(JSONObject jsonObject, final BusinessCallback callback) {
 
-    public static void call(Object info, Object callback, String callbackKey) {
-        UserSession userSession = UserSession.getUserSession();
-        String userTokenId = userSession.getUserTokenId();
-        if (helperConfig == null) {
-            helperConfig = new HelperConfig();
-            helperConfig.setLoginService(Iplat4mHelper.getLoginServiceDef());
-            helperConfig.setAgentService(Iplat4mHelper.getAgentServiceDef());
+        try {
+            boolean isGet = jsonObject.optBoolean("isGet");
+            String url = jsonObject.optString("url");
+            JSONObject paramJ = jsonObject.getJSONObject("data");
+            Map<String,Object> param = new Gson().fromJson(paramJ.toString(),Map.class);
+
+            param.put("userId",-1);
+            final Handler handler = new Handler(mC.getMainLooper(), new Handler.Callback() {
+                @Override
+                public boolean handleMessage(Message msg) {
+                    callback.callback(msg.obj.toString());
+                    return true;
+                }
+            });
+            OkHttpAsyncCallback callback1 = new OkHttpAsyncCallback() {
+                @Override
+                public void onData(int Tag, String data) {
+                    LogUtil.e(data);
+                   handler.obtainMessage(0,data).sendToTarget();
+
+                }
+
+                @Override
+                public void onFailed(int tag, Exception e) {
+                    LogUtil.e(e.getMessage());
+                    handler.obtainMessage(0,"").sendToTarget();
+                }
+            };
+            LogUtil.e(param.toString());
+            if(isGet){
+                param.put("domainId",3);
+                OKHttpClientUtil.getEnQueue(url,0,callback1,param);
+            }else {
+                url+="?domainId=3";
+                OKHttpClientUtil.postEnQueue(url,0,callback1,param);
+            }
+            LogUtil.e(url);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        Iplat4mHelper mIplat4mStarter = Iplat4mHelper.getIplat4mHelper(helperConfig);
-        mIplat4mStarter.start();
-        EiServiceAgent api = mIplat4mStarter.getServiceAgent();
-        if (api.httpAgent != null) {
-            api.httpAgent.setUsertokenid(userTokenId);
-            api.httpAgent.setEncryptKey("IPFDfb9rhthPbu3k");
-            api.httpAgent.setEncryptVector("4kcIDqT27ype2bd7");
-            api.httpAgent.setUserID(userSession.getUserId());
-        }
-        api.callService(info, callback, callbackKey);
+
     }
 
-    public static String getJsonParam(String requestUrl) {
+
+    public static JSONObject getJsonParam(String requestUrl) {
         return getJsonParam(requestUrl, null, null, true);
     }
-
-    public static String getJsonParam(String requestUrl, List<String> param) {
+    public static JSONObject getJsonParam(String requestUrl,boolean isGet) {
+        return getJsonParam(requestUrl, null, null, isGet);
+    }
+    public static JSONObject getJsonParam(String requestUrl, List<String> param) {
         return getJsonParam(requestUrl, param, null, true);
     }
 
-    public static String getJsonParam(String requestUrl, Map<String, String> param) {
+    public static JSONObject getJsonParam(String requestUrl, Map<String, Object> param) {
         return getJsonParam(requestUrl, null, param, false);
     }
 
-    private static String getJsonParam(String requestUrl, List<String> param, Map<String, String> map, boolean isGet) {
+    public static JSONObject getJsonParam(String requestUrl, List<String> param, Map<String, Object> map, boolean isGet) {
         JSONObject json_reject = new JSONObject();
-        JSONObject json_reject_attr = new JSONObject();
         JSONObject json_reject_data = new JSONObject();
 
         try {
@@ -91,25 +117,17 @@ public class NetApi {
                 }
             }
             if (map != null) {
-                for (String key : map.keySet()) {
-                    json_reject_data.put(key, map.get(key));
-                }
+                json_reject_data = new JSONObject(map);
             }
             LogUtil.e(requestUrl);
-            json_reject_attr.put("methodName", "");
-            json_reject_attr.put("projectName", "baowunews");
-            json_reject_attr.put("serviceName", requestUrl);
-            json_reject_attr.put("parameter_compressdata", "true");
-            json_reject_attr.put("parameter_encryptdata", "false");
-            json_reject_attr.put("datatype", "json/json");
-            json_reject_attr.put("requestType", isGet ? "get" : "post");
-            json_reject_attr.put("argsType", "body");
 
-            json_reject.put("attr", json_reject_attr);
+
+            json_reject.put("url", requestUrl);
+            json_reject.put("isGet", isGet);
             json_reject.put("data", json_reject_data);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return json_reject.toString();
+        return json_reject;
     }
 }

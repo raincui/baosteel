@@ -13,6 +13,8 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -199,11 +201,11 @@ public class OkRequestHelper {
     private static NetState mNetState = NetState.NET_4G;
     //--------------------------  基本配置 ----------------------------------
     private static final String CHARSET_NAME = "UTF-8";
-    public static final MediaType FORM_URLENCODED = MediaType.parse("application/x-www-form-urlencoded;charset=UTF-8");
+    public static final MediaType FORM_URLENCODED = MediaType.parse("application/json;charset=UTF-8");
     //----------------------- 请求描述 打日志 -------------------------------
     private String desc = "";
     //----------------------- post&get 基础请求参数 --------------------
-    private Map<String, String> params = new HashMap<String, String>();
+    private Map<String, Object> params = new HashMap<>();
     private String host = "";
     private String path = "";
     private String url = "";
@@ -280,7 +282,7 @@ public class OkRequestHelper {
      *
      * @param params
      */
-    public void setParams(Map<String, String> params) {
+    public void setParams(Map<String, Object> params) {
         if (params != null) {
             this.params = params;
         }
@@ -492,7 +494,7 @@ public class OkRequestHelper {
         for (Map.Entry<String, String> entry : header.entrySet()) {
             builder.addHeader(entry.getKey(), entry.getValue());
         }
-        builder.post(RequestBody.create(FORM_URLENCODED, getFormateParams()));
+        builder.post(RequestBody.create(FORM_URLENCODED, new JSONObject(params).toString()));
         Callback okCallback = new Callback() {
             @Override
             public void onFailure(final Call call, IOException e) {
@@ -542,7 +544,7 @@ public class OkRequestHelper {
         for (Map.Entry<String, String> entry : header.entrySet()) {
             builder.addHeader(entry.getKey(), entry.getValue());
         }
-        builder.post(RequestBody.create(FORM_URLENCODED, getFormateParams()));
+        builder.post(RequestBody.create(FORM_URLENCODED, new JSONObject(params).toString()));
         try {
             Response response = execute(builder);
             if (response.isSuccessful()) {
@@ -790,9 +792,9 @@ public class OkRequestHelper {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
         if (params != null) {
-            for (Map.Entry<String, String> entry : params.entrySet()) {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
                 builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + entry.getKey() + "\""), RequestBody
-                        .create(null, entry.getValue()));
+                        .create(null, entry.getValue().toString()));
             }
         }
         String fileStr = "";
@@ -1003,11 +1005,11 @@ public class OkRequestHelper {
     private String formatParamsCommon() {
         StringBuilder sb = new StringBuilder();
         if (params != null) {
-            for (Map.Entry<String, String> entry : params.entrySet()) {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
                 if (sb.length() > 0) {
                     sb.append("&");
                 }
-                sb.append(String.valueOf(entry.getKey()) + "=" + String.valueOf(entry.getValue()));
+                sb.append(String.valueOf(entry.getKey()) + "=" + String.valueOf(entry.getValue().toString()));
             }
         }
         return sb.toString();
@@ -1036,12 +1038,12 @@ public class OkRequestHelper {
         StringBuilder sb = new StringBuilder("");
         if (params != null) {
             try {
-                for (Map.Entry<String, String> entry : params.entrySet()) {
+                for (Map.Entry<String, Object> entry : params.entrySet()) {
                     if (sb.length() > 0) {
                         sb.append("&");
                     }
                     sb.append(URLEncoder.encode(String.valueOf(entry.getKey()), CHARSET_NAME) + "=" + URLEncoder.encode
-                            (!TextUtils.isEmpty(entry.getValue()) ? entry.getValue() : "", CHARSET_NAME));
+                            (!TextUtils.isEmpty(entry.getValue().toString()) ? entry.getValue().toString() : "", CHARSET_NAME));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1049,6 +1051,8 @@ public class OkRequestHelper {
         }
         return sb.toString();
     }
+
+
 
     public void printLog(String data) {
         if (needLog) {

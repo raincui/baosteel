@@ -94,7 +94,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             showToast("请输入评论内容");
             return;
         }
-        Map<String,String> map = new HashMap<>();
+        Map<String,Object> map = new HashMap<>();
         map.put("docId",docId);
         map.put("remarkContent",comment);
         NetApi.call(NetApi.getJsonParam(ProtocolUrl.goComment,map), new BusinessCallback(this) {

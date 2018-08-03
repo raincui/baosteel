@@ -109,21 +109,18 @@ public class NewsFragment extends BaseFragment implements View.OnClickListener {
      */
     public void loadColumnData() {
         String url = ProtocolUrl.getColumn;
-        NetApi.call(NetApi.getJsonParam(url), new BusinessCallback(getContext()) {
+        NetApi.call(NetApi.getJsonParam(url,false), new BusinessCallback(getContext()) {
             @Override
             public void subCallback(boolean flag,String json) {
                 if (!isAdded()) return;
                 if(!flag)return;
                 try {
-                    JSONObject info = new JSONObject(json).optJSONObject("data");
-                    if ("success".equals(info.optString("result"))) {
+                    JSONObject info = new JSONObject(json);
                         ColumnInfoHelper.getInstance().cacheData(info);
                         adapter = new MyPagerAdapter(getChildFragmentManager(), ColumnInfoHelper.getInstance().getTitleColumns());
                         pager.setAdapter(adapter);
                         news_tabs.setViewPager(pager);
                         return;
-                    }
-                    showToast(info.optJSONObject("data").optString("errorMsg"));
                 } catch (Exception e) {
                     e.printStackTrace();
                     showToast(R.string.tip_error);

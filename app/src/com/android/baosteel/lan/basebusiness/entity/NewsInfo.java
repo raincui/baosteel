@@ -223,15 +223,15 @@ public class NewsInfo extends Info {
     }
 
     public boolean isVideo() {
-        return "0".equals(isVideo);
+        return "1".equals(isVideo);
     }
 
     public boolean isSpecial() {
-        return "0".equals(iszt);
+        return "1".equals(iszt);
     }
 
     public boolean isTop() {
-        return "0".equals(category);
+        return "1".equals(category);
     }
 
     public boolean isSmallPic() {
@@ -292,7 +292,7 @@ public class NewsInfo extends Info {
      * @return
      */
     public boolean isCollected() {
-        return 0 == isCollect;
+        return 1 == isCollect;
     }
 
     public int getReadCount() {
@@ -341,15 +341,15 @@ public class NewsInfo extends Info {
      * @return
      */
     public boolean isGooded() {
-        return 0 == isLove;
+        return 1 == isLove;
     }
 
     public void good(boolean flag) {
-        isLove = flag ? 0 : 1;
+        isLove = flag ? 1 : 0;
     }
 
     public void collect(boolean flag) {
-        isCollect = flag ? 0 : 1;
+        isCollect = flag ? 1 : 0;
     }
 
     public boolean isReaded() {

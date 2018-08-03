@@ -94,14 +94,14 @@ public class ColumnInfo extends Info implements Comparable<ColumnInfo> {
      * @return
      */
     public boolean isLook() {
-        return "0".equals(isDy);
+        return "1".equals(isDy);
     }
 
     /**
      * 切换状态
      */
     public void changeLook() {
-        isDy = isLook() ? "1" : "0";
+        isDy = isLook() ? "0" : "1";
     }
 
     /**
@@ -109,7 +109,7 @@ public class ColumnInfo extends Info implements Comparable<ColumnInfo> {
      * @return
      */
     public boolean isQZLook() {
-        return "0".equals(qzDy);
+        return "1".equals(qzDy);
     }
 
     @Override

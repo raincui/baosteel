@@ -27,6 +27,7 @@ import com.android.baosteel.lan.basebusiness.business.ProtocolUrl;
 import com.android.baosteel.lan.basebusiness.entity.LabelInfo;
 import com.android.baosteel.lan.basebusiness.entity.NewsInfo;
 import com.android.baosteel.lan.basebusiness.entity.PicInfo;
+import com.android.baosteel.lan.basebusiness.util.JsonDataParser;
 import com.android.baosteel.lan.basebusiness.util.LogUtil;
 import com.android.baosteel.lan.basebusiness.util.SharedPrefAction;
 import com.android.baosteel.lan.baseui.customview.DotIconView;
@@ -142,15 +143,8 @@ public class NewsDetailActivity extends BaseWebViewActivity implements View.OnCl
                 try {
                     JSONObject jo = new JSONObject(json);
                     JSONObject data = jo.optJSONObject("data");
-                    if ("success".equals(data.optString("result"))) {
-                        JSONArray ja = data.optJSONArray("data");
-                        if (ja != null && ja.length() > 0) {
-                            mInfo = new Gson().fromJson(ja.getJSONObject(0).toString(), NewsInfo.class);
-                            adapterData();
-                            return;
-                        }
-                    }
-                    showToast(data.optJSONObject("data").optString("errorMsg"));
+                    mInfo = JsonDataParser.j2NewsInfo(data);
+                    adapterData();
                 } catch (JSONException e) {
                     e.printStackTrace();
                     showToast(R.string.tip_error);
@@ -350,7 +344,7 @@ public class NewsDetailActivity extends BaseWebViewActivity implements View.OnCl
             showToast("请输入评论内容");
             return;
         }
-        Map<String, String> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         map.put("docId", docId);
         map.put("remarkContent", comment);
         NetApi.call(NetApi.getJsonParam(ProtocolUrl.goComment, map), new BusinessCallback(this) {

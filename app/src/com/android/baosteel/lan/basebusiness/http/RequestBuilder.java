@@ -52,7 +52,7 @@ public class RequestBuilder {
      * @param param
      * @return
      */
-    public RequestBuilder param(Map<String, String> param) {
+    public RequestBuilder param(Map<String, Object> param) {
         requestHelper.setParams(param);
         return this;
     }

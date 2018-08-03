@@ -46,7 +46,7 @@ public class DocLinkActivity extends BaseWebViewActivity {
         qinfo.set(EiServiceConstant.PARAMETER_COMPRESSDATA, "true");
         qinfo.set(EiServiceConstant.PARAMETER_APPCODE, getPackageName());
         qinfo.set("fileurl", url);
-        NetApi.call(qinfo, this, "callBackForDocFile");
+//        NetApi.call(qinfo, this, "callBackForDocFile");
     }
 
     public void callBackForDocFile(EiInfo eiInfo) {

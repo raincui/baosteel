@@ -20,6 +20,7 @@ import com.android.baosteel.lan.basebusiness.entity.LabelInfo;
 import com.android.baosteel.lan.basebusiness.entity.NewsInfo;
 import com.android.baosteel.lan.basebusiness.entity.PicInfo;
 import com.android.baosteel.lan.basebusiness.util.AppUtil;
+import com.android.baosteel.lan.basebusiness.util.JsonDataParser;
 import com.android.baosteel.lan.basebusiness.util.SharedPrefAction;
 import com.android.baosteel.lan.baseui.DocLinkActivity;
 import com.android.baosteel.lan.baseui.customview.LJRefreshLayout;
@@ -29,19 +30,18 @@ import com.android.baosteel.lan.baseui.ui.SimpleBaseAdapter;
 import com.android.baosteel.lan.moduleApi.LearningApi;
 import com.baosight.lan.R;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A fragment representing a list of Items.
@@ -143,10 +143,15 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
 
     private void loadData(final boolean isMore) {
         if (!isMore) mCurrentPage = 0;
-        List<String> param = new ArrayList<>();
-        param.add(type);
-        param.add(String.valueOf(++mCurrentPage));
-        param.add(guid);
+
+        Map<String,Object> param = new HashMap<>();
+        param.put("pageNo",++mCurrentPage);
+        param.put("pageSize",15);
+        Map<String,Object> subParam = new HashMap<>();
+        subParam.put("nodeGroupId",guid);
+        param.put("condition",subParam);
+
+
 
         StringBuilder sb = new StringBuilder(ProtocolUrl.getNews);
         sb.append("_").append(type).append("_").append(guid);
@@ -155,14 +160,17 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
         if (!isMore && mAdapter.getCount() == 0) {
             String cacheData = SharedPrefAction.getString(key, null);
             if (cacheData != null) {
-                Type type = new TypeToken<List<NewsInfo>>() {
-                }.getType();
-                List<NewsInfo> list = new Gson().fromJson(cacheData, type);
-                mAdapter.replaceAll(list);
+                try {
+                    List<NewsInfo> list = JsonDataParser.j2NewsInfos(new JSONArray(cacheData));
+                    mAdapter.replaceAll(list);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
 
-        NetApi.call(NetApi.getJsonParam(ProtocolUrl.getNews, param), new BusinessCallback(getContext()) {
+        NetApi.call(NetApi.getJsonParam(ProtocolUrl.getNews,null,param,false), new BusinessCallback(getContext()) {
             public void subCallback(boolean flag, String json) {
                 if (!isAdded()) return;
                 view_refresh.setRefreshing(false);
@@ -178,29 +186,20 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
                  * "recommend":"1","category":null,"channelId":"61900ad0-eced-4e9d-9232-e5ccbf14421a"},
                  */
                 try {
-                    JSONObject jo = new JSONObject(json);
-                    JSONObject data = jo.optJSONObject("data");
-                    if ("success".equals(data.optString("result"))) {
-                        String dataStr = data.optJSONArray("data").toString();
-                        Type type = new TypeToken<List<NewsInfo>>() {
-                        }.getType();
-                        List<NewsInfo> list = new Gson().fromJson(dataStr, type);
+                    JSONObject data = new JSONObject(json);
+                    JSONArray ja = data.optJSONObject("data").optJSONArray("data");
+                        List<NewsInfo> list = JsonDataParser.j2NewsInfos(ja);
                         if (isMore) mAdapter.addAll(list);
                         else {
                             //缓存信息
-                            SharedPrefAction.putString(key, dataStr);
+                            SharedPrefAction.putString(key, ja.toString());
                             mAdapter.replaceAll(list);
                             if (isLabel) {
-                                int labelCount = data.optInt("labelCount");
+                                int labelCount = data.optInt("totalCount");
                                 ((TextView) list_refresh.getChildAt(0).findViewById(R.id.txt_count)).setText(labelCount + "篇文章");
                             }
                         }
                         view_refresh.setLoadingMoreEnabled(list.size() >= 10);
-                        return;
-                    }
-                    String tip = data.optJSONObject("data").optString("errorMsg");
-                    if ("{}".equals(tip)) tip = "网络请求超时";
-                    showToast(tip);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     showToast(R.string.tip_error);
