@@ -16,6 +16,7 @@ import com.android.baosteel.lan.basebusiness.business.NetApi;
 import com.android.baosteel.lan.basebusiness.business.ProtocolUrl;
 import com.android.baosteel.lan.basebusiness.entity.NewsInfo;
 import com.android.baosteel.lan.basebusiness.entity.SpecialInfo;
+import com.android.baosteel.lan.basebusiness.util.JsonDataParser;
 import com.android.baosteel.lan.baseui.DocLinkActivity;
 import com.android.baosteel.lan.baseui.customview.LJRefreshLayout;
 import com.android.baosteel.lan.baseui.customview.LJRefreshListView;
@@ -32,7 +33,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A fragment representing a list of Items.
@@ -147,30 +151,27 @@ public class NewspaperFragment extends BaseFragment implements AdapterView.OnIte
     }
 
     private void loadData() {
+        Map<String, Object> map = new HashMap<>();
+        List<String> list = new ArrayList<>();
+        list.add(guid);
+        map.put("groupIds", list);
 
-        NetApi.call(NetApi.getJsonParam(ProtocolUrl.getNewspaperTypeList + "/" + guid), new BusinessCallback(getContext()) {
+        NetApi.call(NetApi.getJsonParam(ProtocolUrl.getNewspaperTypeList, map), new BusinessCallback(getContext()) {
             @Override
-            public void subCallback(boolean flag,String json) {
+            public void subCallback(boolean flag, String json) {
                 view_refresh.setRefreshing(false);
-                if(!flag)return;
+                if (!flag) return;
                 try {
                     JSONObject jo = new JSONObject(json);
-                    JSONObject data = jo.optJSONObject("data");
-                    if ("success".equals(data.optString("result"))) {
-                        Type type = new TypeToken<List<SpecialInfo>>() {
-                        }.getType();
-                        List<SpecialInfo> list = new Gson().fromJson(data.optJSONArray("data").toString(), type);
-                        if (list == null || list.isEmpty()) {
-                            txt_title.setVisibility(View.GONE);
-                        } else {
-                            txt_title.setVisibility(View.VISIBLE);
-                            txt_title.setText(list.get(0).getTitle());
-                            mAdapter.replaceAll(list);
-                            loadChannelList(list.get(0));
-                        }
-                        return;
+                    List<SpecialInfo> list = JsonDataParser.j2SpecialInfo(jo);
+                    if (list == null || list.isEmpty()) {
+                        txt_title.setVisibility(View.GONE);
+                    } else {
+                        txt_title.setVisibility(View.VISIBLE);
+                        txt_title.setText(list.get(0).getTitle());
+                        mAdapter.replaceAll(list);
+                        loadChannelList(list.get(0));
                     }
-                    showToast(data.optJSONObject("data").optString("errorMsg"));
                 } catch (Exception e) {
                     e.printStackTrace();
                     showToast(R.string.tip_error);
@@ -196,21 +197,23 @@ public class NewspaperFragment extends BaseFragment implements AdapterView.OnIte
             mImageAdapter.clear();
         }
         txt_title.setText(info.getTitle());
-        NetApi.call(NetApi.getJsonParam(ProtocolUrl.getNewspaperList + "/" + info.getChannelId()), new BusinessCallback(getContext()) {
+
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> subParam = new HashMap<>();
+        subParam.put("nodeId", info.getChannelId());
+        map.put("condition", subParam);
+        map.put("pageNo",1);
+        map.put("pageSize",1000);
+
+        NetApi.call(NetApi.getJsonParam(ProtocolUrl.getNewspaperList, map), new BusinessCallback(getContext()) {
             @Override
-            public void subCallback(boolean flag,String json) {
-                if(!flag)return;
+            public void subCallback(boolean flag, String json) {
+                if (!flag) return;
                 try {
                     JSONObject jo = new JSONObject(json);
                     JSONObject data = jo.optJSONObject("data");
-                    if ("success".equals(data.optString("result"))) {
-                        Type type = new TypeToken<List<NewsInfo>>() {
-                        }.getType();
-                        List<NewsInfo> list = new Gson().fromJson(data.optJSONArray("data").toString(), type);
-                        mImageAdapter.replaceAll(list);
-                        return;
-                    }
-                    showToast(data.optJSONObject("data").optString("errorMsg"));
+                    List<NewsInfo> list = JsonDataParser.j2NewsInfos(data.optJSONArray("data"));
+                    mImageAdapter.replaceAll(list);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     showToast(R.string.tip_error);

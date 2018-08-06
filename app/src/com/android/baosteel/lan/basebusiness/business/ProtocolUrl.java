@@ -9,6 +9,8 @@ package com.android.baosteel.lan.basebusiness.business;
  */
 public class ProtocolUrl {
 
+    public static int pageSize = 10;
+
     private static String base = "http://139.224.234.251:8080/v1/api/";
 //    private static String base = "";
     /**
@@ -82,4 +84,6 @@ public class ProtocolUrl {
      * 标识文章已读
      */
     public static String markDocReaded = base + "appgroup/addReadStatus";
+
+
 }

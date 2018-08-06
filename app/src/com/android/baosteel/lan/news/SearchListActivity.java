@@ -11,22 +11,20 @@ import com.android.baosteel.lan.basebusiness.business.BusinessCallback;
 import com.android.baosteel.lan.basebusiness.business.NetApi;
 import com.android.baosteel.lan.basebusiness.business.ProtocolUrl;
 import com.android.baosteel.lan.basebusiness.entity.SearchInfo;
+import com.android.baosteel.lan.basebusiness.util.JsonDataParser;
 import com.android.baosteel.lan.baseui.DocLinkActivity;
 import com.android.baosteel.lan.baseui.customview.LJRefreshLayout;
 import com.android.baosteel.lan.baseui.customview.LJRefreshListView;
 import com.android.baosteel.lan.baseui.ui.BaseActivity;
 import com.android.baosteel.lan.baseui.ui.SimpleBaseAdapter;
 import com.baosight.lan.R;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
-import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yulong.cui
@@ -102,16 +100,10 @@ public class SearchListActivity extends BaseActivity implements AdapterView.OnIt
                 try {
                     JSONObject jo = new JSONObject(json);
                     JSONObject data = jo.optJSONObject("data");
-                    if ("success".equals(data.optString("result"))) {
-                        Type type = new TypeToken<List<SearchInfo>>() {
-                        }.getType();
-                        List<SearchInfo> list = new Gson().fromJson(data.optJSONArray("data").toString(), type);
-                        view_refresh.setLoadingMoreEnabled(list.size() >= 10);
-                        findViewById(R.id.txt_tip).setVisibility(list.size() > 0 ? View.GONE : View.VISIBLE);
-                        mAdapter.replaceAll(list);
-                        return;
-                    }
-                    showToast(data.optJSONObject("data").optString("errorMsg"));
+                    List<SearchInfo> list = JsonDataParser.j2SearchInfo(data);
+                    view_refresh.setLoadingMoreEnabled(list.size() >= ProtocolUrl.pageSize);
+                    findViewById(R.id.txt_tip).setVisibility(list.size() > 0 ? View.GONE : View.VISIBLE);
+                    mAdapter.replaceAll(list);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     showToast(R.string.tip_error);
@@ -121,14 +113,17 @@ public class SearchListActivity extends BaseActivity implements AdapterView.OnIt
     }
 
     private void loadData(int page, BusinessCallback callback) {
-        try {
-            String keyword = URLEncoder.encode(mKeyword, "utf-8");
-            StringBuilder sb = new StringBuilder(ProtocolUrl.searchNews);
-            sb.append("/").append(keyword).append("/").append(page);
-            NetApi.call(NetApi.getJsonParam(sb.toString()), callback);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//            String keyword = URLEncoder.encode(mKeyword, "utf-8");
+//            StringBuilder sb = new StringBuilder();
+//            sb.append("/").append(keyword).append("/").append(page);
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> subParam = new HashMap<>();
+        subParam.put("keyword", mKeyword);
+        map.put("condition", subParam);
+        map.put("pageNo", page);
+        map.put("pageSize", ProtocolUrl.pageSize);
+        NetApi.call(NetApi.getJsonParam(ProtocolUrl.searchNews, map), callback);
+
     }
 
     private void loadMore() {
@@ -139,15 +134,9 @@ public class SearchListActivity extends BaseActivity implements AdapterView.OnIt
                 try {
                     JSONObject jo = new JSONObject(json);
                     JSONObject data = jo.optJSONObject("data");
-                    if ("success".equals(data.optString("result"))) {
-                        Type type = new TypeToken<List<SearchInfo>>() {
-                        }.getType();
-                        List<SearchInfo> list = new Gson().fromJson(data.optJSONArray("data").toString(), type);
-                        mAdapter.addAll(list);
-                        view_refresh.setLoadingMoreEnabled(list.size() >= 10);
-                        return;
-                    }
-                    showToast(data.optJSONObject("data").optString("errorMsg"));
+                    List<SearchInfo> list = JsonDataParser.j2SearchInfo(data);
+                    mAdapter.addAll(list);
+                    view_refresh.setLoadingMoreEnabled(list.size() >= ProtocolUrl.pageSize);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     showToast(R.string.tip_error);

@@ -146,7 +146,7 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
 
         Map<String,Object> param = new HashMap<>();
         param.put("pageNo",++mCurrentPage);
-        param.put("pageSize",15);
+        param.put("pageSize",ProtocolUrl.pageSize);
         Map<String,Object> subParam = new HashMap<>();
         subParam.put("nodeGroupId",guid);
         param.put("condition",subParam);
@@ -199,7 +199,7 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
                                 ((TextView) list_refresh.getChildAt(0).findViewById(R.id.txt_count)).setText(labelCount + "篇文章");
                             }
                         }
-                        view_refresh.setLoadingMoreEnabled(list.size() >= 10);
+                        view_refresh.setLoadingMoreEnabled(list.size() >= ProtocolUrl.pageSize);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     showToast(R.string.tip_error);
