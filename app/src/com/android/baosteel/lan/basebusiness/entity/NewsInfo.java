@@ -48,8 +48,8 @@ public class NewsInfo extends Info {
     private int readCount;//阅读数
     private int commentCount;//评论数
     private int loveCount;//点赞数
-    private int isCollect;//是否已收藏0是1否
-    private int isLove;//是否已点赞0是1否
+    private int isCollect;//是否已收藏1是0否
+    private int isLove;//是否已点赞1是0否
     private String author;//作者
     private int status;//是否已读 1是0否
 

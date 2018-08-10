@@ -3,7 +3,6 @@ package com.android.baosteel.lan.news.comment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import com.android.baosteel.lan.basebusiness.business.BusinessCallback;
 import com.android.baosteel.lan.basebusiness.business.NetApi;
 import com.android.baosteel.lan.basebusiness.business.ProtocolUrl;
 import com.android.baosteel.lan.basebusiness.entity.CommentInfo;
+import com.android.baosteel.lan.basebusiness.util.JsonDataParser;
 import com.android.baosteel.lan.baseui.customview.LJRefreshLayout;
 import com.android.baosteel.lan.baseui.customview.LJRefreshListView;
 import com.android.baosteel.lan.baseui.ui.BaseFragment;
@@ -23,15 +23,13 @@ import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A fragment representing a list of Items.
@@ -103,32 +101,30 @@ public class CommentListFragment extends BaseFragment {
     private void loadData(final boolean isMore) {
         if (!isMore)
             mCurrentPage = 0;
-        List<String> param = new ArrayList<>();
-        param.add(docId);
-        param.add(type);
-        param.add(String.valueOf(++mCurrentPage));
+        Map<String, Object> param = new HashMap<>();
+        Map<String, Object> subParam = new HashMap<>();
+        param.put("pageNo", ++mCurrentPage);
+        param.put("pageSize", ProtocolUrl.pageSize);
+        subParam.put("contentId", docId);
+        subParam.put("type", type);//0最新，1最热
+        param.put("condition", subParam);
         NetApi.call(NetApi.getJsonParam(ProtocolUrl.getCommentList, param), new BusinessCallback(getContext()) {
             @Override
-            public void subCallback(boolean flag,String json) {
+            public void subCallback(boolean flag, String json) {
                 if (!isAdded()) return;
                 view_refresh.setRefreshing(false);
-                if(!flag)return;
+                if (!flag) return;
                 try {
                     JSONObject jo = new JSONObject(json);
                     JSONObject data = jo.optJSONObject("data");
-                    if ("success".equals(data.optString("result"))) {
-                        Type type = new TypeToken<List<CommentInfo>>() {
-                        }.getType();
-                        List<CommentInfo> list = new Gson().fromJson(data.optJSONArray("data").toString(), type);
-                        if (isMore) {
-                            mAdapter.addAll(list);
-                        } else {
-                            mAdapter.replaceAll(list);
-                        }
-                        view_refresh.setLoadingMoreEnabled(list.size() == 10);
-                        return;
+                    List<CommentInfo> list = JsonDataParser.j2CommentInfo(data);
+                    if (isMore) {
+                        mAdapter.addAll(list);
+                    } else {
+                        mAdapter.replaceAll(list);
                     }
-                    showToast(data.optJSONObject("data").optString("errorMsg"));
+                    view_refresh.setLoadingMoreEnabled(list.size() == ProtocolUrl.pageSize);
+                    return;
                 } catch (JSONException e) {
                     e.printStackTrace();
                     showToast(R.string.tip_error);
@@ -200,6 +196,7 @@ public class CommentListFragment extends BaseFragment {
             int position = (int) v.getTag();
             goGood(mAdapter.getItem(position));
         }
+
         private void getCircleImageView(SimpleDraweeView imageView) {
             GenericDraweeHierarchy hierarchy = imageView.getHierarchy();
             hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP);
@@ -213,32 +210,24 @@ public class CommentListFragment extends BaseFragment {
      * @param info
      */
     private void goGood(final CommentInfo info) {
-        List<String> list = new ArrayList<>();
-        list.add(docId);
-        list.add(info.getRemarkId());
-        list.add(info.isGood()?"1":"0");
-        info.setIsLove(info.isGood()?1:0);
+
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("commentId", info.getRemarkId());
+        param.put("type", info.isGood() ? 0 : 1);
+        info.setIsLove(info.isGood() ? 0 : 1);
         mAdapter.notifyDataSetChanged();
-        NetApi.call(NetApi.getJsonParam(ProtocolUrl.goCommentGood, list), new BusinessCallback(getContext()) {
+        NetApi.call(NetApi.getJsonParam(ProtocolUrl.goCommentGood, param), new BusinessCallback(getContext()) {
             @Override
-            public void subCallback(boolean flag,String json) {
+            public void subCallback(boolean flag, String json) {
                 if (!isAdded()) return;
-                if(!flag)return;
-                try {
-                    JSONObject jo = new JSONObject(json);
-                    JSONObject data = jo.optJSONObject("data");
-                    if ("success".equals(data.optString("result"))) {
-                        info.setLoveCount(info.isGood()?info.getLoveCount() + 1:info.getLoveCount() - 1);
-                        mAdapter.notifyDataSetChanged();
-                        return;
-                    }
-                    info.setIsLove(info.isGood()?1:0);
+                if (!flag) {
+                    info.setIsLove(info.isGood() ? 0 : 1);
                     mAdapter.notifyDataSetChanged();
-                    showToast(data.optJSONObject("data").optString("errorMsg"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    showToast(R.string.tip_error);
+                    return;
                 }
+                info.setLoveCount(info.isGood() ? info.getLoveCount() + 1 : info.getLoveCount() - 1);
+                mAdapter.notifyDataSetChanged();
             }
         });
     }

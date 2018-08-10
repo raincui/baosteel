@@ -75,7 +75,7 @@ public class CommentInfo extends Info {
     }
 
     public boolean isGood() {
-        return 0 == isLove;
+        return 1 == isLove;
     }
 
 }

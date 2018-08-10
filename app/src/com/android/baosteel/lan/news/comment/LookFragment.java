@@ -25,7 +25,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author yulong.cui
@@ -116,29 +118,19 @@ public class LookFragment extends BaseFragment {
     private void changeLook(final ColumnInfo info) {
         info.changeLook();
         mAdapter.notifyDataSetChanged();
-        List<String> param = new ArrayList<>();
-        param.add(info.getGroupId());
-        param.add(info.getIsDy());
+        Map<String,Object> param = new HashMap<>();
+        param.put("groupId",info.getGroupId());
+        param.put("type",info.getIsDy());
         NetApi.call(NetApi.getJsonParam(ProtocolUrl.changeLook, param), new BusinessCallback(getContext()) {
             @Override
             public void subCallback(boolean flag,String json) {
                 if (getActivity().isFinishing()||!isAdded()) return;
-                if(!flag)return;
-                //{"data":{"result":"success"},"status":"1","msg":"查询成功"}
-                try {
-                    JSONObject jo = new JSONObject(json);
-                    JSONObject data = jo.optJSONObject("data");
-                    if ("success".equals(data.optString("result"))) {
-                        getActivity().setResult(Activity.RESULT_OK);
-                        return;
-                    }
+                if(!flag){
                     info.changeLook();
                     mAdapter.notifyDataSetChanged();
-                    showToast(data.optString("errorMsg"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    showToast(R.string.tip_error);
+                    return;
                 }
+                getActivity().setResult(Activity.RESULT_OK);
             }
         });
     }

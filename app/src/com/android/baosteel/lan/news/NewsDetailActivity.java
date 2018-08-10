@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,15 +27,12 @@ import com.android.baosteel.lan.basebusiness.entity.LabelInfo;
 import com.android.baosteel.lan.basebusiness.entity.NewsInfo;
 import com.android.baosteel.lan.basebusiness.entity.PicInfo;
 import com.android.baosteel.lan.basebusiness.util.JsonDataParser;
-import com.android.baosteel.lan.basebusiness.util.LogUtil;
 import com.android.baosteel.lan.basebusiness.util.SharedPrefAction;
 import com.android.baosteel.lan.baseui.customview.DotIconView;
 import com.android.baosteel.lan.baseui.ui.BaseWebViewActivity;
 import com.android.baosteel.lan.news.comment.CommentActivity;
 import com.baosight.lan.R;
-import com.google.gson.Gson;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -157,8 +153,8 @@ public class NewsDetailActivity extends BaseWebViewActivity implements View.OnCl
         if (mInfo == null) return;
         txt_time.setText(mInfo.getPubDate());
         txt_title.setText(mInfo.getTitle());
-        boolean isFromLearning = getIntent().getBooleanExtra("fromLearning",false);
-        txt_readcount.setVisibility(isFromLearning?View.VISIBLE:View.GONE);
+        boolean isFromLearning = getIntent().getBooleanExtra("fromLearning", false);
+        txt_readcount.setVisibility(isFromLearning ? View.VISIBLE : View.GONE);
         txt_readcount.setText("阅读" + mInfo.getReadCount());
         String htmlStr = mInfo.getContent();
         htmlStr = htmlStr.replaceAll("http://www.baosteel.com/group/player/jwplayer.js", "file:///android_asset/jwplayer.js");
@@ -345,28 +341,18 @@ public class NewsDetailActivity extends BaseWebViewActivity implements View.OnCl
             return;
         }
         Map<String, Object> map = new HashMap<>();
-        map.put("docId", docId);
-        map.put("remarkContent", comment);
+        map.put("contentId", docId);
+        map.put("content", comment);
+        map.put("referenceId ", 0);
         NetApi.call(NetApi.getJsonParam(ProtocolUrl.goComment, map), new BusinessCallback(this) {
             @Override
             public void subCallback(boolean flag, String json) {
                 if (isFinishing()) return;
                 if (!flag) return;
-                try {
-                    JSONObject jo = new JSONObject(json);
-                    JSONObject data = jo.optJSONObject("data");
-                    if ("success".equals(data.optString("result"))) {
-                        showToast("评论成功");
-                        edit_input.getText().clear();
-                        rly_edit.setVisibility(View.GONE);
-                        btn_talk.addMsg();
-                        return;
-                    }
-                    showToast(data.optJSONObject("data").optString("errorMsg"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    showToast(R.string.tip_error);
-                }
+                showToast("评论成功");
+                edit_input.getText().clear();
+                rly_edit.setVisibility(View.GONE);
+                btn_talk.addMsg();
             }
         });
     }
@@ -377,29 +363,21 @@ public class NewsDetailActivity extends BaseWebViewActivity implements View.OnCl
     private void goGood() {
         mInfo.good(!mInfo.isGooded());
         btn_good.setIcon(mInfo.isGooded() ? R.drawable.yizan : R.drawable.zan);
-        List<String> list = new ArrayList<>();
-        list.add(docId);
-        list.add(String.valueOf(mInfo.getIsLove()));
-        NetApi.call(NetApi.getJsonParam(ProtocolUrl.goGood, list), new BusinessCallback(this) {
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("contentId", docId);
+        param.put("type", mInfo.getIsLove());
+        NetApi.call(NetApi.getJsonParam(ProtocolUrl.goGood, param), new BusinessCallback(this) {
             @Override
             public void subCallback(boolean flag, String json) {
                 if (isFinishing()) return;
-                if (!flag) return;
-                try {
-                    JSONObject jo = new JSONObject(json);
-                    JSONObject data = jo.optJSONObject("data");
-                    if ("success".equals(data.optString("result"))) {
-                        btn_good.addMsg(mInfo.isGooded() ? 1 : -1);
-                        setResult(Activity.RESULT_OK);
-                        return;
-                    }
+                if (!flag) {
                     mInfo.good(!mInfo.isGooded());
                     btn_good.setIcon(mInfo.isGooded() ? R.drawable.yizan : R.drawable.zan);
-                    showToast(data.optJSONObject("data").optString("errorMsg"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    showToast(R.string.tip_error);
+                    return;
                 }
+                btn_good.addMsg(mInfo.isGooded() ? 1 : -1);
+                setResult(Activity.RESULT_OK);
             }
         });
     }
@@ -410,28 +388,19 @@ public class NewsDetailActivity extends BaseWebViewActivity implements View.OnCl
     public void goLove() {
         mInfo.collect(!mInfo.isCollected());
         btn_love.setImageResource(mInfo.isCollected() ? R.drawable.shoucangdianji : R.drawable.shoucang);
-        List<String> list = new ArrayList<>();
-        list.add(docId);
-        list.add(String.valueOf(mInfo.getIsCollect()));
-        NetApi.call(NetApi.getJsonParam(ProtocolUrl.changeCollect, list), new BusinessCallback(this) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("contentId", docId);
+        param.put("type", mInfo.getIsCollect());
+        NetApi.call(NetApi.getJsonParam(ProtocolUrl.changeCollect, param), new BusinessCallback(this) {
             @Override
             public void subCallback(boolean flag, String json) {
                 if (isFinishing()) return;
-                if (!flag) return;
-                try {
-                    JSONObject jo = new JSONObject(json);
-                    JSONObject data = jo.optJSONObject("data");
-                    if ("success".equals(data.optString("result"))) {
-                        setResult(Activity.RESULT_OK);
-                        return;
-                    }
+                if (!flag) {
                     mInfo.collect(!mInfo.isCollected());
                     btn_love.setImageResource(mInfo.isCollected() ? R.drawable.shoucangdianji : R.drawable.shoucang);
-                    showToast(data.optJSONObject("data").optString("errorMsg"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    showToast(R.string.tip_error);
+                    return;
                 }
+                setResult(Activity.RESULT_OK);
             }
         });
     }

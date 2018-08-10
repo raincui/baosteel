@@ -9,6 +9,7 @@ import android.util.Log;
 import com.android.baosteel.lan.basebusiness.http.OKHttpClientUtil;
 import com.android.baosteel.lan.basebusiness.http.OkHttpAsyncCallback;
 import com.android.baosteel.lan.basebusiness.util.LogUtil;
+import com.android.baosteel.lan.basebusiness.util.SaveDataGlobal;
 import com.baosight.iplat4mandroid.login.UserSession;
 import com.baosight.iplat4mlibrary.core.ei.agent.EiServiceAgent;
 import com.baosight.iplat4mlibrary.core.ei.eiinfo.EiInfo;
@@ -46,7 +47,7 @@ public class NetApi {
             JSONObject paramJ = jsonObject.getJSONObject("data");
             Map<String,Object> param = new Gson().fromJson(paramJ.toString(),Map.class);
 
-            param.put("userId",-1);
+            param.put("userId", SaveDataGlobal.getUserId());
             final Handler handler = new Handler(mC.getMainLooper(), new Handler.Callback() {
                 @Override
                 public boolean handleMessage(Message msg) {

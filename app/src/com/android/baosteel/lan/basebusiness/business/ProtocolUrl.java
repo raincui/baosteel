@@ -33,7 +33,7 @@ public class ProtocolUrl {
     /**
      * 获取我的收藏列表
      */
-    public static String getMyCollects = base + "content/llistByStored";
+    public static String getMyCollects = base + "content/listByStored";
     /**
      * 获取文章详情
      */

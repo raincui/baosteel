@@ -22,56 +22,8 @@ public class SaveDataGlobal {
 
     public static final String APK_VERSION = "apkVersion"; // 更新版本
     public static final String UPDATE_APK_VERSION="UPDATE_APK_VERSION";//是否版本升级，决定是否进入引导广告页面
-    public static final String SAFE_CLIENT_DFP="SAFE_CLIENT_DFP";
-    public static final String HTML5_VERSION = "html5Version"; // HTML5版本
-    public static final String HTML5_VERSION_TEMP = "html5VersionTemp"; // H5版本临时存放
-    public static final String PARTY_ID = "partyId"; // 会员ID
-    public static final String USER_MD5_PASSWORD = "userMd5Password"; // 会员密码
-    public static final String OPERATOR_ID = "operatorId"; // 操作员ID
-    public static final String GPS_LOCATION_ADDRESS = "gpsLocationAddress"; // 获取GPS地址
-    public static final String GPS_LOCATION_ADDRESS_CITY_REGION = "GPS_LOCATION_ADDRESS_CITY_REGION"; // 地址
-    // city-region
-    public static final String PARTY_TYPE = "partyType"; // 会员类型
-    public static final String USER_NAME = "userName"; // 用户名
-    public static final String USER_PASSWORD = "userPassword"; // 密码
-    public static final String IS_FIRST = "isFirst"; // 不是第一次进入
-    public static final String MI_FIRST = "First";
-    public static final String AUTO_LOGIN = "autoLogin"; // 自动登陆
-    public static final String CREATE_SHOORT_CUT = "createShoortCut"; // 是否创建桌面图标
-    public static final String MOBILE_NUMBER = "mobileNumber"; // 手机号码
-    public static final String GPS_FLAG = "gpsFlag"; // GPS标志
-    // public static final String UPDATE_FLAG = "updateFlag"; // 更新标志
-    public static final String URL_FLAG = "urlFlag"; // 页面跳转标志
-    public static final String TEMP_SELCT_CITY = "tempSelctCity"; // 选择省市
-    public static final String SHARK_IMG_URL = "sharkImgUrl"; // 摇一摇最后下载成功图片
-    public static final String LAT_LNG = "latLng"; // 经纬度
-    public static final String SPLASH_IMG_URL = "splashImgUrl"; // 闪屏图片
-    public static final String TOKEN = "token"; // 登录后返回
-    public static final String ACCOUNT_NUMBER = "accountNumber"; // 我的钱包要用到
-    public static final String PASSWORD_LEVEL = "level";  //密码等级
-    public static final String ZSTX_PATH = "zstx_path";//真实头像地址
-    public static final String OPERATOR = "operator";//操作员  admin 代表会员登录
-    public static final String ALERT_BINDPHONE = "_alert_bindphone";//是否提示绑定手机
-    public static final String MOBILENUMBERISACTIVE = "mobilenumberisactive";//是否绑定
-    public static final String MANAGING_CITY = "managing_city";//经营城市
-    public static final String PARTYNAME = "partyname"; // 会员名
-    public static final String APP_REGISTERPROTOCOLPATH = "app_register_protocolpath";//註冊协议路径
-    public static final String APP_PRODUCTNAME = "app_product_name";//APP名
-    public static final String ISREADYSAVED = "issaved"; //是否保存经营城市标记
-    public static final String BAIDU_LAT_LNG = "baidu_latlng";
-    //保存运单ID
-    public static final String COMPLAINT_TRADEID = "complaint_tradeid";
-    public static final String REMAIN_CALL_TIME = "REMAIN_CALL_TIME";//剩余免费电话时长
-    public static final String UPDATE_FLAG = "updateFlag"; // 更新标志
-    public static final String SEND_SMS_IS_SHOW_DIAGLE = "sendSmsIsShowDiagle"; //发送短信成功是否显示弹框
-    public static final String GPS_LOCATION_ADDRESS_STREET = "gpsLocationAddressStreet";//省-市-区-街道
-    //草稿
-    public static final String PUBLISHGOODSDRAFT = "draft";
 
     public static final String MAC_ADDRESS = "macAddress"; // MAC地址
-    public static final String PERMISSION_INFO = "permissionInfo"; // 权限信息
-    public static final String CALL_PHONE_NUMBER = "callPhoneNumber"; // 拨打电话
-    public static final String GOODS_SOURCE_ID = "goodsSourceId"; // 货源ID
     // REALNAME
     public static final String REALNAME = "realname"; // 真实姓名
     public static final String PartyName = "partyname"; // 会员名
@@ -83,22 +35,9 @@ public class SaveDataGlobal {
     public static final String CIRCLE_NEWBIE = "circle_newbie";
     public static final String UUID = "uuid"; // 当前APP唯一值
     public static final String DELAY_POINT_ARRAY = "DELAY_POINT_ARRAY";
-    public static final String LINK_MAN_ID = "LINK_MAN_ID";//联系人页面号码的ID
-    public static final String LINK_MAN_PHONE = "LINK_MAN_PHONE";//联系人页面要保存的号码
 
-    public static final String FIRST_INSURANCE = "first_insurance";//保险首次进入标识
+    private static int userId = -1;
 
-
-    public static final String PHONE_NETWORK_TYPE="PHONE_NETWORK_TYPE";
-    public static final String APP_CHANNEL="APP_CHANNEL";
-    public static final String IP_ADDRESS="IP_ADDRESS";
-    public static final String PHONE_TYPE="PHONE_TYPE";
-    public static final String ROLE="ROLE";
-
-    //目前钱包使用
-    public static final String SOURCE_CODE="sourceCode";
-    //默认收货地址
-    public static final String DEFAULT_ADDRESS="default_address";
 
     public static void open(Context ct) {
         Obj.open(ct, saveDataGrobalFileName);
@@ -115,9 +54,6 @@ public class SaveDataGlobal {
 
     // 清除基础数据
     public static void clearData() {
-        Obj.putString("GRSFZSHBZ", null);
-        Obj.putString("JSZSHBZ", null);
-        Obj.putString("XSZSHBZ", null);
     }
 
     public static boolean getBoolean(String key, boolean value) {
@@ -300,5 +236,13 @@ public class SaveDataGlobal {
             sb.append(sTemp.toUpperCase());
         }
         return sb.toString();
+    }
+
+    public static void setUserId(int userId) {
+        SaveDataGlobal.userId = userId;
+    }
+
+    public static int getUserId(){
+        return SaveDataGlobal.userId;
     }
 }

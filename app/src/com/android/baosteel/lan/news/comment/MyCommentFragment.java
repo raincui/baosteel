@@ -14,6 +14,8 @@ import com.android.baosteel.lan.basebusiness.business.BusinessCallback;
 import com.android.baosteel.lan.basebusiness.business.NetApi;
 import com.android.baosteel.lan.basebusiness.business.ProtocolUrl;
 import com.android.baosteel.lan.basebusiness.entity.MyCommentInfo;
+import com.android.baosteel.lan.basebusiness.util.JsonDataParser;
+import com.android.baosteel.lan.basebusiness.util.SaveDataGlobal;
 import com.android.baosteel.lan.baseui.customview.LJRefreshLayout;
 import com.android.baosteel.lan.baseui.customview.LJRefreshListView;
 import com.android.baosteel.lan.baseui.ui.BaseFragment;
@@ -21,21 +23,19 @@ import com.android.baosteel.lan.baseui.ui.SimpleBaseAdapter;
 import com.android.baosteel.lan.moduleApi.LearningApi;
 import com.android.baosteel.lan.news.NewsDetailActivity;
 import com.baosight.lan.R;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/4/16 0016.
  */
 
-public class MyCommentFragment extends BaseFragment implements AdapterView.OnItemClickListener{
+public class MyCommentFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
     private View viewMain;
     private LJRefreshLayout view_refresh;
@@ -44,6 +44,7 @@ public class MyCommentFragment extends BaseFragment implements AdapterView.OnIte
     private MyAdapter mAdapter;
     private boolean isFirstInit = true;//是否第一次加载
     private int mCurrentPage;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class MyCommentFragment extends BaseFragment implements AdapterView.OnIte
         initListener();
 
     }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -77,6 +79,7 @@ public class MyCommentFragment extends BaseFragment implements AdapterView.OnIte
         view_refresh = findView(viewMain, R.id.view_refresh);
         list_refresh = findView(viewMain, R.id.list_refresh);
     }
+
     @Override
     protected void initData() {
         super.initData();
@@ -94,6 +97,7 @@ public class MyCommentFragment extends BaseFragment implements AdapterView.OnIte
             }
         });
     }
+
     @Override
     protected void initListener() {
         super.initListener();
@@ -108,30 +112,30 @@ public class MyCommentFragment extends BaseFragment implements AdapterView.OnIte
         });
         list_refresh.setOnItemClickListener(this);
     }
+
     private void loadData(final boolean isMore) {
         if (!isMore) mCurrentPage = 0;
-        List<String> param = new ArrayList<>();
-        param.add(String.valueOf(++mCurrentPage));
+        Map<String, Object> param = new HashMap<>();
+        Map<String, Object> subParam = new HashMap<>();
+        param.put("pageNo", ++mCurrentPage);
+        param.put("pageSize", ProtocolUrl.pageSize);
+        subParam.put("userId", SaveDataGlobal.getUserId());
+        param.put("condition", subParam);
         NetApi.call(NetApi.getJsonParam(ProtocolUrl.getMyComments, param), new BusinessCallback(getContext()) {
-            public void subCallback(boolean flag,String json) {
+            public void subCallback(boolean flag, String json) {
                 if (!isAdded()) return;
                 view_refresh.setRefreshing(false);
-                if(!flag)return;
+                if (!flag) return;
                 try {
                     JSONObject jo = new JSONObject(json);
                     JSONObject data = jo.optJSONObject("data");
-                    if ("success".equals(data.optString("result"))) {
-                        Type type = new TypeToken<List<MyCommentInfo>>() {
-                        }.getType();
-                        List<MyCommentInfo> list = new Gson().fromJson(data.optJSONArray("data").toString(), type);
-                        if (isMore) mAdapter.addAll(list);
-                        else {
-                            mAdapter.replaceAll(list);
-                        }
-                        view_refresh.setLoadingMoreEnabled(list.size() >= 10);
-                        return;
+                    List<MyCommentInfo> list = JsonDataParser.j2MyCommentInfo(data);
+                    if (isMore) mAdapter.addAll(list);
+                    else {
+                        mAdapter.replaceAll(list);
                     }
-                    showToast(data.optJSONObject("data").optString("errorMsg"));
+                    view_refresh.setLoadingMoreEnabled(list.size() >= ProtocolUrl.pageSize);
+                    return;
                 } catch (JSONException e) {
                     e.printStackTrace();
                     showToast(R.string.tip_error);
@@ -143,6 +147,7 @@ public class MyCommentFragment extends BaseFragment implements AdapterView.OnIte
 
 
     }
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         MyCommentInfo info = mAdapter.getItem(i);
@@ -151,7 +156,8 @@ public class MyCommentFragment extends BaseFragment implements AdapterView.OnIte
         startActivity(intent);
 
     }
-    class MyAdapter extends SimpleBaseAdapter<MyCommentInfo>{
+
+    class MyAdapter extends SimpleBaseAdapter<MyCommentInfo> {
 
         public MyAdapter(Context context, List<MyCommentInfo> data) {
             super(context, data);
@@ -165,7 +171,7 @@ public class MyCommentFragment extends BaseFragment implements AdapterView.OnIte
         @Override
         public View getItemView(int position, View convertView, ViewHolder holder) {
             MyCommentInfo info = getItem(position);
-            TextView txt_comment =  holder.getView(R.id.txt_comment);
+            TextView txt_comment = holder.getView(R.id.txt_comment);
             txt_comment.setText(info.getRemarkContent());
 
             TextView txt_title = holder.getView(R.id.txt_title);
