@@ -34,7 +34,7 @@ import java.util.Map;
 public class NetApi {
     static Context mC;
 
-    public static void init(Activity context) {
+    public static void init(Context context) {
         mC = context;
 
     }

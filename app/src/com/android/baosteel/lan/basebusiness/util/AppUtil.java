@@ -364,7 +364,7 @@ public class AppUtil {
 
     // /^(170[0|5|9])\\d{7}$
     // 校验手机号码正则表达式
-    public static boolean iFphoneNmber(String str, boolean f) {
+    public static boolean isPhoneNum(String str) {
         Pattern p = Pattern.compile("^((13[0-9])|(14[0-9])|(15[^4,\\D])|(18[0,0-9])|17[0,0-9])\\d{8}$");
         Pattern p1 = Pattern.compile("^(170[0,5-9])\\d{7}$");
         Matcher m = p.matcher(str);
@@ -377,24 +377,6 @@ public class AppUtil {
         return false;
     }
 
-    // 校验手机号码正则表达式/*
-    /*移动：134、135、136、137、138、139、150、151、147(TD)、157(TD)、158、159、178、187、188
-    联通：130、131、132、152、155、156、176、185、186
-    电信：133、153、177、180、189、（1349卫通）
-    总结起来就是第一位必定为1，第二位必定为3或5或8，其他位置的可以为0-9
-            */
-
-    public static boolean iFphoneNmber(String str) {
-        if (TextUtils.isEmpty(str)) {
-            return false;
-        }
-        Pattern p = Pattern.compile("[1][34578]\\d{9}");
-        Matcher m = p.matcher(str);
-        if (m.matches() && str.length() == 11) {
-            return true;
-        }
-        return false;
-    }
 
     // 验证码检验
     public static boolean isCaptcha(String str) {

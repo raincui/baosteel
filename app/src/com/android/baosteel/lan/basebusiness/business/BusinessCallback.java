@@ -41,6 +41,7 @@ public abstract class BusinessCallback {
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(context, "网络请求超时", Toast.LENGTH_SHORT).show();
+            subCallback(false,json);
         }
     }
 

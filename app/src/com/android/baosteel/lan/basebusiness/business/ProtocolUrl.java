@@ -85,5 +85,39 @@ public class ProtocolUrl {
      */
     public static String markDocReaded = base + "appgroup/addReadStatus";
 
+    /**
+     * 用户登陆
+     */
+    public static String userLogin = base + "user/login";
+
+    /**
+     * 用户登出
+     */
+    public static String userLogout = base + "user/logout";
+
+    /**
+     * 用户注册
+     */
+    public static String userRegister = base + "user/register";
+
+    /**
+     * 用户信息修改
+     */
+    public static String userSetting = base + "user/setting";
+
+    /**
+     * 用户密码修改
+     */
+    public static String userPasswordUpdate = base + "user/password/update";
+
+    /**
+     * 用户密码重置
+     */
+    public static String userPasswordReset = base + "user/password/reset";
+
+    /**
+     * 用户密码验证码
+     */
+    public static String userPasswordCode = base + "user/pwdcode";
 
 }

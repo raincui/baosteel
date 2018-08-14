@@ -15,39 +15,56 @@
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp"/>
-    <LinearLayout
+    <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:checkedButton="@+id/rb_1"
         android:orientation="horizontal">
-
-        <TextView
+        <RadioButton
+            android:id="@+id/rb_1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="16sp"
-            android:background="@android:color/holo_red_dark"
+            android:textSize="14sp"
             android:onClick="onNews"
+            android:button="@null"
+            android:drawableTop="@drawable/selector_btn_news"
+            android:textColor="@drawable/selector_txt_color"
             android:text="资讯" />
-
-        <TextView
+        <RadioButton
             android:layout_width="0dp"
-            android:textSize="16sp"
             android:layout_height="match_parent"
-            android:background="@android:color/holo_green_dark"
             android:layout_weight="1"
             android:gravity="center"
-            android:onClick="onLearning"
-            android:text="学习" />
-
-        <TextView
+            android:textSize="14sp"
+            android:onClick="onVideo"
+            android:button="@null"
+            android:textColor="@drawable/selector_txt_color"
+            android:drawableTop="@drawable/selector_btn_video"
+            android:text="视频" />
+        <RadioButton
             android:layout_width="0dp"
-            android:textSize="16sp"
             android:layout_height="match_parent"
-            android:background="@android:color/holo_blue_dark"
             android:layout_weight="1"
             android:gravity="center"
-            android:onClick="onExpress"
-            android:text="快递矩阵" />
-    </LinearLayout>
+            android:textSize="14sp"
+            android:onClick="onPaper"
+            android:button="@null"
+            android:textColor="@drawable/selector_txt_color"
+            android:drawableTop="@drawable/selector_btn_paper"
+            android:text="报纸" />
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:onClick="onMine"
+            android:button="@null"
+            android:textColor="@drawable/selector_txt_color"
+            android:drawableTop="@drawable/selector_btn_mine"
+            android:text="我的" />
+    </RadioGroup>
+
 </LinearLayout>

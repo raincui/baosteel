@@ -20,7 +20,6 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        NetApi.init(this);
         onNews(null);
     }
 
@@ -34,7 +33,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void onLearning(View view) {
+    public void onVideo(View view) {
         if (learnFragment == null) {
             learnFragment = LearningApi.getInstance().getFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.fragment, learnFragment).commitAllowingStateLoss();
@@ -44,7 +43,10 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void onExpress(View view) {
+    public void onPaper(View view) {
+        ExpressApi.getInstance().openExpressActivity(this);
+    }
+    public void onMine(View view) {
         ExpressApi.getInstance().openExpressActivity(this);
     }
 

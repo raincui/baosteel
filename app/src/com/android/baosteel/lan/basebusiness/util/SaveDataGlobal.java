@@ -3,6 +3,8 @@ package com.android.baosteel.lan.basebusiness.util;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.android.baosteel.lan.basebusiness.entity.UserInfo;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -21,7 +23,7 @@ public class SaveDataGlobal {
     public static final String saveDataGrobalFileName = "saveDataGrobal";
 
     public static final String APK_VERSION = "apkVersion"; // 更新版本
-    public static final String UPDATE_APK_VERSION="UPDATE_APK_VERSION";//是否版本升级，决定是否进入引导广告页面
+    public static final String UPDATE_APK_VERSION = "UPDATE_APK_VERSION";//是否版本升级，决定是否进入引导广告页面
 
     public static final String MAC_ADDRESS = "macAddress"; // MAC地址
     // REALNAME
@@ -37,6 +39,7 @@ public class SaveDataGlobal {
     public static final String DELAY_POINT_ARRAY = "DELAY_POINT_ARRAY";
 
     private static int userId = -1;
+    private static UserInfo userInfo;
 
 
     public static void open(Context ct) {
@@ -242,7 +245,16 @@ public class SaveDataGlobal {
         SaveDataGlobal.userId = userId;
     }
 
-    public static int getUserId(){
+    public static int getUserId() {
         return SaveDataGlobal.userId;
+    }
+
+    public static UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public static void setUserInfo(UserInfo userInfo) {
+        SaveDataGlobal.userInfo = userInfo;
+        setUserId(userInfo.getId());
     }
 }

@@ -2,6 +2,7 @@ package com.android.baosteel.lan.baseui;
 
 import android.app.Application;
 
+import com.android.baosteel.lan.basebusiness.business.NetApi;
 import com.android.baosteel.lan.basebusiness.http.OKHttpClientUtil;
 import com.android.baosteel.lan.basebusiness.http.OkRequestHelper;
 import com.android.baosteel.lan.basebusiness.util.LogUtil;
@@ -19,5 +20,6 @@ public class MApplication extends Application {
         LogUtil.setDebugMode(true);
         OkRequestHelper.initRequestHelper(this);
         OKHttpClientUtil.init(this,false);
+        NetApi.init(this);
     }
 }
