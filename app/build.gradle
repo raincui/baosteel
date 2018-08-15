@@ -34,8 +34,8 @@ android {
 
 }
 repositories {
-    flatDir{
-            dirs 'libs'
+    flatDir {
+        dirs 'libs'
     }
 }
 allprojects {
@@ -48,8 +48,8 @@ allprojects {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile(name: 'iplat4mlibrary', ext: 'aar')
-    compile 'com.android.support:multidex:1.0.0'
     //compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support:multidex:1.0.0'
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
     compile 'com.squareup.okio:okio:1.11.0'
     compile 'com.facebook.fresco:fresco:0.12.0'

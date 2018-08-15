@@ -119,5 +119,13 @@ public class ProtocolUrl {
      * 用户密码验证码
      */
     public static String userPasswordCode = base + "user/pwdcode";
+    /**
+     * 用户注册验证码
+     */
+    public static String userRegisterCode = base + "user/regcode";
+    /**
+     * 验证验证码
+     */
+    public static String userCheckCode = base + "user/vercode/valid";
 
 }

@@ -46,7 +46,7 @@ public class NetApi {
             String url = jsonObject.optString("url");
             JSONObject paramJ = jsonObject.getJSONObject("data");
             Map<String,Object> param = new Gson().fromJson(paramJ.toString(),Map.class);
-
+            if(param!=null)
             param.put("userId", SaveDataGlobal.getUserId());
             final Handler handler = new Handler(mC.getMainLooper(), new Handler.Callback() {
                 @Override

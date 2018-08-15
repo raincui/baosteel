@@ -405,7 +405,7 @@ public class AppUtil {
      */
     // * @描述： 校验密码（6-20个字母、数字、下划线）
     public static boolean isPasswd(String pwd) {
-        Pattern p = Pattern.compile("^[0-9_a-zA-Z]{6,20}$");
+        Pattern p = Pattern.compile("^[0-9_a-zA-Z]{6,12}$");
         Matcher m = p.matcher(pwd);
         return m.matches();
     }
@@ -417,7 +417,7 @@ public class AppUtil {
      */
     // * @描述： 校验密码（6-20个字母、数字、下划线）
     public static boolean isPasswd(CharSequence str) {
-        Pattern p = Pattern.compile("^[0-9_a-zA-Z]{6,20}$");
+        Pattern p = Pattern.compile("^[0-9_a-zA-Z]{6,12}$");
         Matcher m = p.matcher(str);
         return m.matches();
     }
