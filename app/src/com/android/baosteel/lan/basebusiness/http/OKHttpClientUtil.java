@@ -73,8 +73,8 @@ public class OKHttpClientUtil {
      * @param okHttpAsyncCallback
      * @param nameValuePairs
      */
-    public static void postEnQueue(String url, final int tag, final OkHttpAsyncCallback okHttpAsyncCallback, Map<String, Object> nameValuePairs) {
-        RequestBuilder.newBuilder().desc("请求链接").url(url).param(formatParams(nameValuePairs)).tag(tag).httpCallback(new HttpCallback() {
+    public static void postEnQueue(String url, final int tag, final OkHttpAsyncCallback okHttpAsyncCallback, Map<String, Object> nameValuePairs,Map<String, String> heads) {
+        RequestBuilder.newBuilder().desc("请求链接").url(url).param(formatParams(nameValuePairs)).tag(tag).header(heads).httpCallback(new HttpCallback() {
             @Override
             public void onData(int tag, boolean isSuccess, int httpCode, String data) {
 //                handle401(data);
@@ -116,8 +116,8 @@ public class OKHttpClientUtil {
      * @param okHttpAsyncCallback
      * @param nameValuePairs
      */
-    public static void getEnQueue(String url, final int tag, final OkHttpAsyncCallback okHttpAsyncCallback, Map<String, Object> nameValuePairs) {
-        RequestBuilder.newBuilder().url(url).tag(tag).param(formatParams(nameValuePairs)).desc("请求连接").httpCallback(new HttpCallback() {
+    public static void getEnQueue(String url, final int tag, final OkHttpAsyncCallback okHttpAsyncCallback, Map<String, Object> nameValuePairs,Map<String, String> heads) {
+        RequestBuilder.newBuilder().url(url).tag(tag).param(formatParams(nameValuePairs)).header(heads).desc("请求连接").httpCallback(new HttpCallback() {
             @Override
             public void onData(int tag, boolean isSuccess, int httpCode, String data) {
 //                handle401(data);

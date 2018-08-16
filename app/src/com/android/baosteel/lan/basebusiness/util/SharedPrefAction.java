@@ -158,5 +158,8 @@ public class SharedPrefAction {
         return new ArrayList<>(set);
     }
 
-
+    public static void remove(String key) {
+        SharedPreferences.Editor editor = Obj.edit();
+        editor.remove(key).apply();
+    }
 }

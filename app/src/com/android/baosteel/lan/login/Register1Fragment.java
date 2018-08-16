@@ -47,6 +47,7 @@ public class Register1Fragment extends BaseFragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
+     *
      * @return A new instance of fragment Register1Fragment.
      */
     public static Register1Fragment newInstance() {
@@ -79,68 +80,69 @@ public class Register1Fragment extends BaseFragment {
     @Override
     protected void initView() {
         super.initView();
-        box_agree = findView(rootView,R.id.box_agree);
-        txt_code = findView(rootView,R.id.txt_code);
-        edit_code = findView(rootView,R.id.edit_code);
-        view_protocol = findView(rootView,R.id.lly_protocol);
-        view_protocol.setVisibility(activity.isFromRegister()?View.VISIBLE:View.GONE);
+        box_agree = findView(rootView, R.id.box_agree);
+        txt_code = findView(rootView, R.id.txt_code);
+        edit_code = findView(rootView, R.id.edit_code);
+        view_protocol = findView(rootView, R.id.lly_protocol);
+        view_protocol.setVisibility(activity.isFromRegister() ? View.VISIBLE : View.GONE);
     }
 
-    public boolean isAgreeProtocol(){
-        return activity.isFromRegister()&&box_agree.isChecked();
+    public boolean isAgreeProtocol() {
+        return !activity.isFromRegister() || box_agree.isChecked();
     }
 
-    public void checkPhoneCode(){
+    public void checkPhoneCode() {
         String code = edit_code.getText().toString();
-        if(TextUtils.isEmpty(code)){
+        if (TextUtils.isEmpty(code)) {
             showToast("请输入验证码");
             return;
         }
-        Map<String,Object> param = new HashMap<>();
-        param.put("userPhone",phoneNum);
-        param.put("validCode",code);
-        NetApi.call(NetApi.getJsonParam(ProtocolUrl.userCheckCode,param), new BusinessCallback(getContext()) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("userPhone", phoneNum);
+        param.put("validCode", code);
+        NetApi.call(NetApi.getJsonParam(ProtocolUrl.userCheckCode, param), new BusinessCallback(getContext()) {
             @Override
             public void subCallback(boolean flag, String json) {
-                if(getActivity().isFinishing())return;
+                if (getActivity().isFinishing()) return;
                 if (!isAdded()) return;
                 if (flag) {
-                  activity.onNext();
+                    activity.onNext();
                 }
             }
         });
     }
 
-    public void onPhoneCode(){
-        EditText edit_phone = findView(rootView,R.id.edit_phone);
+    public void onPhoneCode() {
+        EditText edit_phone = findView(rootView, R.id.edit_phone);
         phoneNum = edit_phone.getText().toString();
-        if(!AppUtil.isPhoneNum(phoneNum)){
+        if (!AppUtil.isPhoneNum(phoneNum)) {
             showToast("请输入正确手机号");
             return;
         }
         List<String> param = new ArrayList<>();
         param.add(phoneNum);
-        NetApi.call(NetApi.getJsonParam(activity.isFromRegister()?ProtocolUrl.userRegisterCode:ProtocolUrl.userPasswordCode, param), new BusinessCallback(getContext()) {
+        param.add(activity.isFromRegister() ? "0" : "1");
+        NetApi.call(NetApi.getJsonParam(ProtocolUrl.userPhoneCode, param), new BusinessCallback(getContext()) {
             @Override
             public void subCallback(boolean flag, String json) {
-                if(getActivity().isFinishing())return;
+                if (getActivity().isFinishing()) return;
                 if (!isAdded()) return;
                 if (flag) {
                     txt_code.setClickable(false);
                     int count = 60;
-                    txt_code.setText(count+"");
+                    txt_code.setText(count + "");
                     countdown(--count);
                 }
             }
         });
     }
 
-    private void countdown(final int count){
-        new Thread(){
+    private void countdown(final int count) {
+        new Thread() {
             @Override
             public void run() {
                 super.run();
-                mHandler.sendMessageDelayed(mHandler.obtainMessage(1000,count,0),1000);
+                mHandler.sendMessageDelayed(mHandler.obtainMessage(1000, count, 0), 1000);
             }
         }.start();
     }
@@ -148,20 +150,20 @@ public class Register1Fragment extends BaseFragment {
     @Override
     protected void message(Message msg) {
         super.message(msg);
-        if(msg.what == 1000){
-            if(msg.arg1==-1){
+        if (msg.what == 1000) {
+            if (msg.arg1 == -1) {
                 txt_code.setText("重新获取");
                 txt_code.setClickable(true);
                 return;
             }
-            txt_code.setText(msg.arg1+"");
+            txt_code.setText(msg.arg1 + "");
             countdown(--msg.arg1);
         }
     }
 
-    public void putParam(Map<String,Object> param){
-        param.put("userPhone",phoneNum);
-        param.put("loginName",phoneNum);
-        param.put("validCode",edit_code.getText().toString());
+    public void putParam(Map<String, Object> param) {
+        param.put("userPhone", phoneNum);
+        param.put("loginName", phoneNum);
+        param.put("validCode", edit_code.getText().toString());
     }
 }

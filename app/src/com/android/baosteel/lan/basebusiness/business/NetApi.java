@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.android.baosteel.lan.basebusiness.entity.UserInfo;
 import com.android.baosteel.lan.basebusiness.http.OKHttpClientUtil;
 import com.android.baosteel.lan.basebusiness.http.OkHttpAsyncCallback;
 import com.android.baosteel.lan.basebusiness.util.LogUtil;
@@ -70,12 +71,21 @@ public class NetApi {
                 }
             };
             LogUtil.e(param.toString());
+            UserInfo userInfo = SaveDataGlobal.getUserInfo();
+
+            Map<String,String> heads = new HashMap<>();
+            if(userInfo!=null){
+                heads.put("x-user","2/"+userInfo.getToken());
+            }else{
+                heads.put("x-user","0/default");
+            }
+
             if(isGet){
                 param.put("domainId",3);
-                OKHttpClientUtil.getEnQueue(url,0,callback1,param);
+                OKHttpClientUtil.getEnQueue(url,0,callback1,param,heads);
             }else {
                 url+="?domainId=3";
-                OKHttpClientUtil.postEnQueue(url,0,callback1,param);
+                OKHttpClientUtil.postEnQueue(url,0,callback1,param,heads);
             }
             LogUtil.e(url);
 

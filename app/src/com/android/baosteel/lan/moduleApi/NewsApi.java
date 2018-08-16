@@ -1,7 +1,5 @@
 package com.android.baosteel.lan.moduleApi;
 
-import android.support.v4.app.Fragment;
-
 import com.android.baosteel.lan.news.NewsFragment;
 
 /**
@@ -27,7 +25,7 @@ public class NewsApi {
         return NewsApi.Instance.api;
     }
 
-    public Fragment getFragment() {
+    public NewsFragment getFragment() {
         return fragment;
     }
 

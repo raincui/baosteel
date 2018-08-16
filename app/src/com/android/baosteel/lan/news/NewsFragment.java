@@ -92,7 +92,6 @@ public class NewsFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void initListener() {
         super.initListener();
-        findView(viewMain, R.id.btn_search).setOnClickListener(this);
         findView(viewMain, R.id.btn_look).setOnClickListener(this);
     }
 
@@ -136,9 +135,7 @@ public class NewsFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_search) {
-            startActivity(new Intent(getContext(), SearchActivity.class));
-        } else if (v.getId() == R.id.btn_look) {
+        if (v.getId() == R.id.btn_look) {
             startActivityForResult(new Intent(getContext(), MineInfoActivity.class), 1000);
         }
     }

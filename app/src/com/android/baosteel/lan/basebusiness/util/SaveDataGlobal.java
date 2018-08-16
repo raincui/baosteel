@@ -27,16 +27,9 @@ public class SaveDataGlobal {
 
     public static final String MAC_ADDRESS = "macAddress"; // MAC地址
     // REALNAME
-    public static final String REALNAME = "realname"; // 真实姓名
-    public static final String PartyName = "partyname"; // 会员名
 
-    public static final String LONGIN_TIME = "loginTime"; // 记录上一次登录时间
 
-    public static final String IS_REGISTER = "isRegister";
-    public static final String TRANSFAR_COMMINDEX = "transfar_commindex";
-    public static final String CIRCLE_NEWBIE = "circle_newbie";
     public static final String UUID = "uuid"; // 当前APP唯一值
-    public static final String DELAY_POINT_ARRAY = "DELAY_POINT_ARRAY";
 
     private static int userId = -1;
     private static UserInfo userInfo;
@@ -57,6 +50,7 @@ public class SaveDataGlobal {
 
     // 清除基础数据
     public static void clearData() {
+
     }
 
     public static boolean getBoolean(String key, boolean value) {
@@ -256,5 +250,11 @@ public class SaveDataGlobal {
     public static void setUserInfo(UserInfo userInfo) {
         SaveDataGlobal.userInfo = userInfo;
         setUserId(userInfo.getId());
+    }
+
+    public static void remove(String key){
+        if (Obj != null) {
+            Obj.remove(key);
+        }
     }
 }

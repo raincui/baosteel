@@ -12,15 +12,6 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/btn_search"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="5dp"
-            android:paddingRight="10dp"
-            android:visibility="visible"
-            android:src="@drawable/selector_btn_search" />
-
         <com.android.baosteel.lan.baseui.customview.PagerSlidingTabStrip
             android:id="@+id/steel_tabs"
             android:layout_width="0dp"

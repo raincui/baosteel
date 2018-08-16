@@ -9,7 +9,8 @@ public class UserInfo {
     private String loginIp;
     private String token;
     private String userName;
-    private String loginPhone;
+    private String userPhone;
+    private String loginName;
 
     public int getId() {
         return id;
@@ -27,9 +28,6 @@ public class UserInfo {
         return userName;
     }
 
-    public String getLoginPhone() {
-        return loginPhone;
-    }
 
     public void setId(int id) {
         this.id = id;
@@ -47,7 +45,19 @@ public class UserInfo {
         this.userName = userName;
     }
 
-    public void setLoginPhone(String loginPhone) {
-        this.loginPhone = loginPhone;
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
+    }
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public String getLoginName() {
+        return loginName;
     }
 }

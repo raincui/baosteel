@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.android.baosteel.lan.basebusiness.business.BusinessCallback;
 import com.android.baosteel.lan.basebusiness.business.NetApi;
 import com.android.baosteel.lan.basebusiness.business.ProtocolUrl;
+import com.android.baosteel.lan.basebusiness.util.SaveDataGlobal;
 import com.android.baosteel.lan.baseui.DocLinkActivity;
 import com.android.baosteel.lan.baseui.ui.BaseActivity;
 import com.baosight.lan.R;
@@ -51,12 +52,13 @@ public class RegisterActivity extends BaseActivity {
     }
 
     public void onNext(){
+        getSupportFragmentManager().beginTransaction().hide(register1Fragment).commitAllowingStateLoss();
         if (register2Fragment == null) {
             register2Fragment = Register2Fragment.newInstance();
             getSupportFragmentManager().beginTransaction().add(R.id.fragment, register2Fragment).commitAllowingStateLoss();
         } else {
             getSupportFragmentManager().beginTransaction().show(register2Fragment).commitAllowingStateLoss();
-            getSupportFragmentManager().beginTransaction().hide(register1Fragment).commitAllowingStateLoss();
+
         }
     }
 
@@ -76,6 +78,8 @@ public class RegisterActivity extends BaseActivity {
                 if(isFinishing())return;
                 if (flag) {
                     showToast(isFromRegister()?"注册成功":"密码已重置");
+                    SaveDataGlobal.remove("loginName");
+                    SaveDataGlobal.remove("loginPwd");
                     finish();
                 }
             }

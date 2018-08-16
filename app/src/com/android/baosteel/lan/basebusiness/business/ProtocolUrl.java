@@ -116,13 +116,9 @@ public class ProtocolUrl {
     public static String userPasswordReset = base + "user/password/reset";
 
     /**
-     * 用户密码验证码
+     * 用户验证码
      */
-    public static String userPasswordCode = base + "user/pwdcode";
-    /**
-     * 用户注册验证码
-     */
-    public static String userRegisterCode = base + "user/regcode";
+    public static String userPhoneCode = base + "user/vercode";
     /**
      * 验证验证码
      */

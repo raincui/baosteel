@@ -153,8 +153,8 @@ public class NewsDetailActivity extends BaseWebViewActivity implements View.OnCl
         if (mInfo == null) return;
         txt_time.setText(mInfo.getPubDate());
         txt_title.setText(mInfo.getTitle());
-        boolean isFromLearning = getIntent().getBooleanExtra("fromLearning", false);
-        txt_readcount.setVisibility(isFromLearning ? View.VISIBLE : View.GONE);
+//        boolean isFromLearning = getIntent().getBooleanExtra("fromLearning", false);
+//        txt_readcount.setVisibility(isFromLearning ? View.VISIBLE : View.GONE);
         txt_readcount.setText("阅读" + mInfo.getReadCount());
         String htmlStr = mInfo.getContent();
         htmlStr = htmlStr.replaceAll("http://www.baosteel.com/group/player/jwplayer.js", "file:///android_asset/jwplayer.js");

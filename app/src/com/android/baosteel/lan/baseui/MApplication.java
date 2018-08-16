@@ -6,6 +6,7 @@ import com.android.baosteel.lan.basebusiness.business.NetApi;
 import com.android.baosteel.lan.basebusiness.http.OKHttpClientUtil;
 import com.android.baosteel.lan.basebusiness.http.OkRequestHelper;
 import com.android.baosteel.lan.basebusiness.util.LogUtil;
+import com.android.baosteel.lan.basebusiness.util.SaveDataGlobal;
 
 /**
  * @author yulong.cui
@@ -18,8 +19,10 @@ public class MApplication extends Application {
     public void onCreate() {
         super.onCreate();
         LogUtil.setDebugMode(true);
+        SaveDataGlobal.open(this);
         OkRequestHelper.initRequestHelper(this);
         OKHttpClientUtil.init(this,false);
         NetApi.init(this);
+
     }
 }

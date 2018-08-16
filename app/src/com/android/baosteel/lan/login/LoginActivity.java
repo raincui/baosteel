@@ -20,6 +20,7 @@ import com.android.baosteel.lan.basebusiness.entity.UserInfo;
 import com.android.baosteel.lan.basebusiness.util.AppUtil;
 import com.android.baosteel.lan.basebusiness.util.MD5;
 import com.android.baosteel.lan.basebusiness.util.SaveDataGlobal;
+import com.android.baosteel.lan.baseui.MainActivity;
 import com.baosight.lan.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -130,7 +131,7 @@ public class LoginActivity extends Activity {
         Map<String, Object> param = new HashMap<>();
         param.put(LOGINNAME, userName);
         param.put(LOGINPWD, passwordEcode);
-        NetApi.call(NetApi.getJsonParam(ProtocolUrl.goGood, param), new BusinessCallback(this) {
+        NetApi.call(NetApi.getJsonParam(ProtocolUrl.userLogin, param), new BusinessCallback(this) {
             @Override
             public void subCallback(boolean flag, String json) {
                 if (isFinishing()) return;
@@ -146,6 +147,7 @@ public class LoginActivity extends Activity {
                     SaveDataGlobal.setUserInfo(info);
                     SaveDataGlobal.putString(LOGINNAME, userName);
                     SaveDataGlobal.putString(LOGINPWD, password);
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
