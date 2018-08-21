@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.android.baosteel.lan.baseui.ui.BaseActivity;
 import com.android.baosteel.lan.mine.MineFragment;
+import com.android.baosteel.lan.mine.MineNewsActivity;
 import com.android.baosteel.lan.moduleApi.NewsApi;
 import com.android.baosteel.lan.news.NewsFragment;
 import com.android.baosteel.lan.news.SearchActivity;
@@ -66,13 +67,13 @@ public class MainActivity extends BaseActivity {
 
     }
     public void onMineCollect(View view){
-
+        MineNewsActivity.start(this,"我的收藏",MineNewsActivity.FRAGMENT_MINE_COLLECT);
     }
     public void onMineTalk(View view){
-
+        MineNewsActivity.start(this,"我的话题",MineNewsActivity.FRAGMENT_MINE_TALK);
     }
     public void onMineAnswer(View view){
-
+        MineNewsActivity.start(this,"我的回复",MineNewsActivity.FRAGMENT_MINE_ANSWER);
     }
     public void onSetting(View view){
 

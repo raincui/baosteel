@@ -46,17 +46,18 @@ public class MineFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         userInfo = SaveDataGlobal.getUserInfo();
         if(userInfo == null){
             showToast("请先登陆");
             startActivity(new Intent(getContext(), LoginActivity.class));
             getActivity().finish();
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_mine, container, false);
         initView();
         return rootView;

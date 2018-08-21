@@ -19,6 +19,7 @@ import com.android.baosteel.lan.basebusiness.entity.ColumnInfo;
 import com.android.baosteel.lan.basebusiness.util.SharedPrefAction;
 import com.android.baosteel.lan.baseui.customview.PagerSlidingTabStrip;
 import com.android.baosteel.lan.baseui.ui.BaseFragment;
+import com.android.baosteel.lan.mine.MineNewsActivity;
 import com.android.baosteel.lan.news.comment.MineInfoActivity;
 import com.baosight.lan.R;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -136,7 +137,8 @@ public class NewsFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_look) {
-            startActivityForResult(new Intent(getContext(), MineInfoActivity.class), 1000);
+            MineNewsActivity.start(this,"我的订阅",MineNewsActivity.FRAGMENT_MINE_LOOK,1000);
+//            startActivityForResult(new Intent(getContext(), MineInfoActivity.class), 1000);
         }
     }
 

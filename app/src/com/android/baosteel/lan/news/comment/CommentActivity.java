@@ -13,11 +13,7 @@ import com.android.baosteel.lan.basebusiness.business.NetApi;
 import com.android.baosteel.lan.basebusiness.business.ProtocolUrl;
 import com.android.baosteel.lan.baseui.ui.BaseActivity;
 import com.android.baosteel.lan.baseui.ui.BaseFragment;
-import com.android.baosteel.lan.news.NewsDetailActivity;
 import com.baosight.lan.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +25,7 @@ import java.util.Map;
  * @Description: 评论列表
  * Create DateTime: 2017/3/21
  */
-public class CommentActivity extends BaseActivity implements View.OnClickListener{
+public class CommentActivity extends BaseActivity implements View.OnClickListener {
     BaseFragment hotFragment;
     BaseFragment newFragment;
     private RadioGroup rg_menu;
@@ -89,33 +85,23 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
 
     }
 
-    private void goTalk(String comment){
-        if(TextUtils.isEmpty(comment)){
+    private void goTalk(String comment) {
+        if (TextUtils.isEmpty(comment)) {
             showToast("请输入评论内容");
             return;
         }
-        Map<String,Object> map = new HashMap<>();
-        map.put("docId",docId);
-        map.put("remarkContent",comment);
-        NetApi.call(NetApi.getJsonParam(ProtocolUrl.goComment,map), new BusinessCallback(this) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("contentId", docId);
+        map.put("content", comment);
+        map.put("referenceId ", 0);
+        NetApi.call(NetApi.getJsonParam(ProtocolUrl.goComment, map), new BusinessCallback(this) {
             @Override
-            public void subCallback(boolean flag,String json) {
-                if(!flag)return;
+            public void subCallback(boolean flag, String json) {
+                if (!flag) return;
                 if (isFinishing()) return;
-                try {
-                    JSONObject jo = new JSONObject(json);
-                    JSONObject data = jo.optJSONObject("data");
-                    if ("success".equals(data.optString("result"))) {
-                        currentFragment.refresh();
-                        rly_edit.setVisibility(View.GONE);
-                        showToast("评论成功");
-                        return;
-                    }
-                    showToast(data.optJSONObject("data").optString("errorMsg"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    showToast(R.string.tip_error);
-                }
+                currentFragment.refresh();
+                rly_edit.setVisibility(View.GONE);
+                showToast("评论成功");
             }
         });
 
@@ -128,12 +114,13 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
      */
     public void goNewFragment() {
         if (newFragment == null) {
-            newFragment =  CommentListFragment.newInstance();
+            newFragment = CommentListFragment.newInstance();
             Bundle bundle = new Bundle();
-            bundle.putString("type","0");
-            bundle.putString("docId",docId);
+            bundle.putString("type", "0");
+            bundle.putString("docId", docId);
             newFragment.setArguments(bundle);
-            if(hotFragment!=null) getSupportFragmentManager().beginTransaction().hide(hotFragment).commitAllowingStateLoss();
+            if (hotFragment != null)
+                getSupportFragmentManager().beginTransaction().hide(hotFragment).commitAllowingStateLoss();
             getSupportFragmentManager().beginTransaction().add(R.id.fragment, newFragment).commitAllowingStateLoss();
         } else {
             getSupportFragmentManager().beginTransaction().hide(hotFragment).commitAllowingStateLoss();
@@ -149,10 +136,11 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         if (hotFragment == null) {
             hotFragment = CommentListFragment.newInstance();
             Bundle bundle = new Bundle();
-            bundle.putString("type","1");
-            bundle.putString("docId",docId);
+            bundle.putString("type", "1");
+            bundle.putString("docId", docId);
             hotFragment.setArguments(bundle);
-            if(newFragment!=null) getSupportFragmentManager().beginTransaction().hide(newFragment).commitAllowingStateLoss();
+            if (newFragment != null)
+                getSupportFragmentManager().beginTransaction().hide(newFragment).commitAllowingStateLoss();
             getSupportFragmentManager().beginTransaction().add(R.id.fragment, hotFragment).commitAllowingStateLoss();
         } else {
             getSupportFragmentManager().beginTransaction().hide(newFragment).commitAllowingStateLoss();
@@ -164,17 +152,17 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if(id == R.id.btn_talk){
+        if (id == R.id.btn_talk) {
             //写评论
             rly_edit.setVisibility(View.VISIBLE);
             edit_input.requestFocus();
-            ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE))
-                    .showSoftInput(edit_input,0);
-        }else if(id == R.id.btn_cancel_edit){
+            ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
+                    .showSoftInput(edit_input, 0);
+        } else if (id == R.id.btn_cancel_edit) {
             rly_edit.setVisibility(View.GONE);
-        }else if(id == R.id.btn_commit_edit){
+        } else if (id == R.id.btn_commit_edit) {
             String talk = edit_input.getText().toString();
-            if(TextUtils.isEmpty(talk)){
+            if (TextUtils.isEmpty(talk)) {
                 showToast("请输入评论");
                 return;
             }

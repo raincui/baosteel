@@ -62,15 +62,12 @@ public class MyCommentFragment extends BaseFragment implements AdapterView.OnIte
         super.onViewCreated(view, savedInstanceState);
         initView();
         initListener();
-
+        initData();
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            initData();
-        }
     }
 
     @Override
@@ -120,6 +117,7 @@ public class MyCommentFragment extends BaseFragment implements AdapterView.OnIte
         param.put("pageNo", ++mCurrentPage);
         param.put("pageSize", ProtocolUrl.pageSize);
         subParam.put("userId", SaveDataGlobal.getUserId());
+        subParam.put("type", 0);
         param.put("condition", subParam);
         NetApi.call(NetApi.getJsonParam(ProtocolUrl.getMyComments, param), new BusinessCallback(getContext()) {
             public void subCallback(boolean flag, String json) {

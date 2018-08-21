@@ -54,6 +54,7 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <!-- <activity android:name="com.android.baosteel.lan.login.LoginActivity"/> -->
         <activity android:name="com.android.baosteel.lan.login.RegisterActivity" />
+        <activity android:name="com.android.baosteel.lan.mine.MineNewsActivity" />
     </application>
 
 </manifest>

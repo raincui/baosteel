@@ -15,6 +15,7 @@ import com.android.baosteel.lan.basebusiness.business.BusinessCallback;
 import com.android.baosteel.lan.basebusiness.business.NetApi;
 import com.android.baosteel.lan.basebusiness.business.ProtocolUrl;
 import com.android.baosteel.lan.basebusiness.entity.ColumnInfo;
+import com.android.baosteel.lan.basebusiness.util.LogUtil;
 import com.android.baosteel.lan.baseui.customview.DragSortListView;
 import com.android.baosteel.lan.baseui.ui.BaseFragment;
 import com.android.baosteel.lan.baseui.ui.SimpleBaseAdapter;
@@ -75,9 +76,13 @@ public class LookFragment extends BaseFragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(!isVisibleToUser){
-            saveDataSort();
-        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LogUtil.e("----onPause-----");
+        saveDataSort();
     }
 
     @Override

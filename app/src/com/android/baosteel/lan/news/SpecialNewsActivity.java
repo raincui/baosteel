@@ -61,7 +61,7 @@ public class SpecialNewsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
-        setContentView(R.layout.activity_special_news);
+        setContentView(R.layout.activity_common);
         initView();
         initListener();
         initData();

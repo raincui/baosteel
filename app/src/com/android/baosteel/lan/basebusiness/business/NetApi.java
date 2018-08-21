@@ -47,8 +47,15 @@ public class NetApi {
             String url = jsonObject.optString("url");
             JSONObject paramJ = jsonObject.getJSONObject("data");
             Map<String,Object> param = new Gson().fromJson(paramJ.toString(),Map.class);
-            if(param!=null)
-            param.put("userId", SaveDataGlobal.getUserId());
+            if(param!=null){
+                param.put("userId", SaveDataGlobal.getUserId());
+                //处理页码从0开始
+                Object pageNo = param.get("pageNo");
+                if(pageNo!=null){
+                    param.put("pageNo",Double.valueOf(pageNo.toString())-1);
+                }
+            }
+
             final Handler handler = new Handler(mC.getMainLooper(), new Handler.Callback() {
                 @Override
                 public boolean handleMessage(Message msg) {
