@@ -76,7 +76,7 @@ public class MainActivity extends BaseActivity {
         MineNewsActivity.start(this,"我的回复",MineNewsActivity.FRAGMENT_MINE_ANSWER);
     }
     public void onSetting(View view){
-
+        MineNewsActivity.start(this,"设置",MineNewsActivity.FRAGMENT_MINE_SETTING);
     }
 
 

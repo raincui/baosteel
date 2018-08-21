@@ -55,28 +55,28 @@ public class SaveDataGlobal {
 
     public static boolean getBoolean(String key, boolean value) {
         if (Obj != null) {
-            return Obj.getBoolean(key, value);
+            return Obj.getBoolean(userId+"_"+key, value);
         }
         return false;
     }
 
     public static boolean putBoolean(String key, boolean value) {
         if (Obj != null) {
-            return Obj.putBoolean(key, value);
+            return Obj.putBoolean(userId+"_"+key, value);
         }
         return false;
     }
 
     public static int getInt(String key, int def) {
         if (Obj != null) {
-            return Obj.getInt(key, def);
+            return Obj.getInt(userId+"_"+key, def);
         }
         return 0;
     }
 
     public static boolean putInt(String key, int value) {
         if (Obj != null) {
-            return Obj.putInt(key, value);
+            return Obj.putInt(userId+"_"+key, value);
         }
         return false;
     }
@@ -90,21 +90,21 @@ public class SaveDataGlobal {
 
     public static boolean putString(String key, String value) {
         if (Obj != null) {
-            return Obj.putString(key, value);
+            return Obj.putString(userId+"_"+key, value);
         }
         return false;
     }
 
     public static long getLong(String key, Long value) {
         if (Obj != null) {
-            return Obj.getLong(key, value);
+            return Obj.getLong(userId+"_"+key, value);
         }
         return 0;
     }
 
     public static boolean putLong(String key, Long value) {
         if (Obj != null) {
-            return Obj.putLong(key, value);
+            return Obj.putLong(userId+"_"+key, value);
         }
         return false;
     }

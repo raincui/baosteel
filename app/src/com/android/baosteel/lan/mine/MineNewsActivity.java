@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.View;
 import android.widget.TextView;
 
 import com.android.baosteel.lan.baseui.ui.BaseActivity;
@@ -24,6 +25,9 @@ public class MineNewsActivity extends BaseActivity {
     public final static int FRAGMENT_MINE_TALK = 1001;
     public final static int FRAGMENT_MINE_ANSWER = 1002;
     public final static int FRAGMENT_MINE_LOOK = 1003;
+    public final static int FRAGMENT_MINE_SETTING = 1004;
+    public final static int FRAGMENT_MINE_ABOUT = 1005;
+    public final static int FRAGMENT_MINE_FONT = 1006;
 
     @Override
     protected void initTitle() {
@@ -71,6 +75,15 @@ public class MineNewsActivity extends BaseActivity {
             case FRAGMENT_MINE_LOOK:
                 fragment = new LookFragment();
                 break;
+            case FRAGMENT_MINE_SETTING:
+                fragment = new SettingFragment();
+                break;
+            case FRAGMENT_MINE_ABOUT:
+                fragment = new AboutFragment();
+                break;
+            case FRAGMENT_MINE_FONT:
+                fragment = new FontFragment();
+                break;
             default:
                 fragment = new MyCollectFragment();
                 break;
@@ -92,4 +105,18 @@ public class MineNewsActivity extends BaseActivity {
         initListener();
         initData();
     }
+
+    public void onAbout(View view) {
+        start(this, "关于我们", FRAGMENT_MINE_ABOUT);
+    }
+
+    public void onFontSize(View view) {
+        start(this, "字体大小", FRAGMENT_MINE_FONT);
+    }
+
+    public void onClearCache(View view) {
+        showToast("缓存已清理");
+    }
+
+
 }

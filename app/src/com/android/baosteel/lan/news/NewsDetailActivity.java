@@ -27,6 +27,7 @@ import com.android.baosteel.lan.basebusiness.entity.LabelInfo;
 import com.android.baosteel.lan.basebusiness.entity.NewsInfo;
 import com.android.baosteel.lan.basebusiness.entity.PicInfo;
 import com.android.baosteel.lan.basebusiness.util.JsonDataParser;
+import com.android.baosteel.lan.basebusiness.util.SaveDataGlobal;
 import com.android.baosteel.lan.basebusiness.util.SharedPrefAction;
 import com.android.baosteel.lan.baseui.customview.DotIconView;
 import com.android.baosteel.lan.baseui.ui.BaseWebViewActivity;
@@ -126,7 +127,7 @@ public class NewsDetailActivity extends BaseWebViewActivity implements View.OnCl
     protected void initData() {
         super.initData();
         //字体和亮度
-        fontSize = SharedPrefAction.getInt("fontSize", 110);
+        fontSize = SaveDataGlobal.getInt("fontSize", 110);
         webView.getSettings().setTextZoom(fontSize);
 
         docId = getIntent().getStringExtra("docId");
@@ -298,7 +299,7 @@ public class NewsDetailActivity extends BaseWebViewActivity implements View.OnCl
             Dialog dialog = new FontSettingDialog(this, fontSize, getLight(), new FontSettingDialog.onSettingListener() {
                 @Override
                 public void onSetting(int txtSize, int light) {
-                    SharedPrefAction.putInt("fontSize", txtSize);
+                    SaveDataGlobal.putInt("fontSize", txtSize);
                     fontSize = txtSize;
                     setLight(light);
                     webView.getSettings().setTextZoom(txtSize);
@@ -306,7 +307,7 @@ public class NewsDetailActivity extends BaseWebViewActivity implements View.OnCl
 
                 @Override
                 public void onSettingEnd(int light) {
-                    SharedPrefAction.putInt("lightSize", light);
+                    SaveDataGlobal.putInt("lightSize", light);
                 }
             });
             dialog.show();
