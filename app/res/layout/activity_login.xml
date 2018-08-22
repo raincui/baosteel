@@ -2,12 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
     android:background="@android:color/white"
+    android:gravity="center_horizontal"
     android:paddingBottom="15dp"
     android:paddingLeft="36dp"
     android:paddingRight="36dp"
     tools:context="com.android.baosteel.lan.login.LoginActivity">
+
 
     <!-- Login progress -->
     <ProgressBar
@@ -33,162 +34,174 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30sp"
-                android:layout_marginTop="47dp"
                 android:layout_marginBottom="40dp"
+                android:layout_marginTop="47dp"
+                android:text="中国宝武"
                 android:textColor="@color/lj_color_blue"
-                android:text="中国宝武"/>
+                android:textSize="30sp" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp">
+
                 <TextView
                     android:id="@+id/lab_name"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="手机号："
-                    android:textSize="16sp"
                     android:gravity="center"
-                    android:textColor="@color/lj_color_blue"/>
+                    android:text="手机号："
+                    android:textColor="@color/lj_color_blue"
+                    android:textSize="16sp" />
+
                 <EditText
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="手机号"
-                    android:gravity="center_vertical"
-                    android:background="@color/lj_color_transparent"
                     android:layout_toRightOf="@+id/lab_name"
+                    android:background="@color/lj_color_transparent"
+                    android:gravity="center_vertical"
+                    android:hint="手机号"
+                    android:inputType="phone"
+                    android:maxLines="1"
                     android:textColor="@android:color/black"
                     android:textColorHint="@color/divider"
-                    android:textSize="16sp"
-                    android:inputType="phone"
-                    android:maxLines="1"/>
+                    android:textSize="16sp" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/lj_color_divider"/>
+                    android:background="@color/lj_color_divider" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp">
+
                 <TextView
                     android:id="@+id/lab_pd"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="密    码："
-                    android:textSize="16sp"
                     android:gravity="center"
-                    android:textColor="@color/lj_color_blue"/>
+                    android:text="密    码："
+                    android:textColor="@color/lj_color_blue"
+                    android:textSize="16sp" />
+
                 <EditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="密码"
-                    android:textColor="@android:color/black"
+                    android:layout_toRightOf="@+id/lab_pd"
                     android:background="@color/lj_color_transparent"
                     android:gravity="center_vertical"
-                    android:textSize="16sp"
-                    android:textColorHint="@color/divider"
-                    android:layout_toRightOf="@+id/lab_pd"
+                    android:hint="密码"
                     android:inputType="textPassword"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@color/divider"
+                    android:textSize="16sp" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/lj_color_divider"/>
+                    android:background="@color/lj_color_divider" />
             </RelativeLayout>
 
             <Button
                 android:id="@+id/email_sign_in_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
                 android:layout_marginBottom="30dp"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:gravity="center"
+                android:layout_marginTop="60dp"
                 android:background="@drawable/selector_btn_grey_blue"
-                android:text="@string/action_sign_in"/>
+                android:gravity="center"
+                android:text="@string/action_sign_in"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:gravity="center_vertical"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0.1dp"
-                    android:background="@color/divider"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:background="@color/divider" />
+
                 <TextView
                     android:layout_width="wrap_content"
-                    android:text="使用第三方账号登陆"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:textSize="16sp"
+                    android:text="使用第三方账号登陆"
                     android:textColor="@color/divider"
-                    android:layout_height="wrap_content" />
+                    android:textSize="16sp" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0.1dp"
-                    android:background="@color/divider"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:background="@color/divider" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:gravity="center_vertical"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:layout_height="wrap_content">
-               <ImageView
-                   android:layout_width="0dp"
-                   android:layout_height="wrap_content"
-                   android:layout_weight="1"
-                   android:onClick="onWechat"
-                   android:src="@drawable/icon_wechat"/>
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onWechat"
+                    android:src="@drawable/icon_wechat" />
+
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:onClick="onQQ"
-                    android:src="@drawable/icon_qq"/>
+                    android:src="@drawable/icon_qq" />
+
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:onClick="onXina"
-                    android:src="@drawable/icon_xina"/>
+                    android:src="@drawable/icon_xina" />
             </LinearLayout>
-
-
-
-
         </LinearLayout>
     </ScrollView>
 
     <TextView
         android:id="@+id/btn_register"
-        android:clickable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="注册"
+        android:layout_alignParentBottom="true"
+        android:clickable="true"
+        android:onClick="onRegister"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
-        android:onClick="onRegister"
+        android:text="注册"
+
         android:textColor="@drawable/selector_txt_blue_grey"
-        android:layout_alignParentBottom="true"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
+
     <TextView
         android:id="@+id/btn_forget_pd"
-        android:clickable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="忘记密码"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:onClick="onForgetPD"
-        android:textColor="@drawable/selector_txt_blue_grey"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:textSize="16sp"/>
+        android:clickable="true"
+        android:onClick="onForgetPD"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:text="忘记密码"
+        android:textColor="@drawable/selector_txt_blue_grey"
+        android:textSize="16sp" />
 </RelativeLayout>

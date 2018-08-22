@@ -23,7 +23,8 @@
         android:theme="@style/AppTheme">
 
          <activity android:name="com.android.baosteel.lan.baseui.MainActivity"/>
-        <activity android:name="com.android.baosteel.lan.login.LoginActivity">
+        <activity android:name="com.android.baosteel.lan.login.LoginActivity"
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

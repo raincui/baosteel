@@ -1,5 +1,6 @@
 package com.android.baosteel.lan.mine;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,13 +8,25 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.baosteel.lan.basebusiness.business.BusinessCallback;
+import com.android.baosteel.lan.basebusiness.business.NetApi;
+import com.android.baosteel.lan.basebusiness.business.ProtocolUrl;
+import com.android.baosteel.lan.basebusiness.entity.UserInfo;
+import com.android.baosteel.lan.basebusiness.util.SaveDataGlobal;
 import com.android.baosteel.lan.baseui.ui.BaseActivity;
 import com.android.baosteel.lan.baseui.ui.BaseFragment;
+import com.android.baosteel.lan.login.LoginActivity;
+import com.android.baosteel.lan.login.Register1Fragment;
+import com.android.baosteel.lan.login.RegisterActivity;
 import com.android.baosteel.lan.news.comment.LookFragment;
 import com.android.baosteel.lan.news.comment.MyAnswerFragment;
 import com.android.baosteel.lan.news.comment.MyCollectFragment;
 import com.android.baosteel.lan.news.comment.MyCommentFragment;
 import com.baosight.lan.R;
+
+import java.util.Map;
+
+import static com.android.baosteel.lan.baseui.MainActivity.request_code_modify;
 
 /**
  * @author yulong.cui
@@ -28,6 +41,8 @@ public class MineNewsActivity extends BaseActivity {
     public final static int FRAGMENT_MINE_SETTING = 1004;
     public final static int FRAGMENT_MINE_ABOUT = 1005;
     public final static int FRAGMENT_MINE_FONT = 1006;
+    public final static int FRAGMENT_MINE_MODIFY = 1007;
+    public final static int FRAGMENT_MINE_PHONE = 1008;
 
     @Override
     protected void initTitle() {
@@ -46,6 +61,13 @@ public class MineNewsActivity extends BaseActivity {
 
     public static void start(Fragment context, String title, int fragment, int resultId) {
         Intent intent = new Intent(context.getContext(), MineNewsActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("fragment", fragment);
+        context.startActivityForResult(intent, resultId);
+    }
+
+    public static void start(Activity context, String title, int fragment, int resultId) {
+        Intent intent = new Intent(context, MineNewsActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("fragment", fragment);
         context.startActivityForResult(intent, resultId);
@@ -84,6 +106,13 @@ public class MineNewsActivity extends BaseActivity {
             case FRAGMENT_MINE_FONT:
                 fragment = new FontFragment();
                 break;
+            case FRAGMENT_MINE_MODIFY:
+                fragment = new ModifyFragment();
+                setResult(Activity.RESULT_OK);
+                break;
+            case FRAGMENT_MINE_PHONE:
+                fragment = Register1Fragment.newInstance(false, true);
+                break;
             default:
                 fragment = new MyCollectFragment();
                 break;
@@ -118,5 +147,61 @@ public class MineNewsActivity extends BaseActivity {
         showToast("缓存已清理");
     }
 
+    public void onPhone(View view) {
+        MineNewsActivity.start(this,"修改手机",MineNewsActivity.FRAGMENT_MINE_PHONE);
+    }
 
+    public void onPassword(View view) {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        intent.putExtra("title", "修改密码");
+        startActivity(intent);
+    }
+
+    public void onNickName(View view) {
+
+    }
+
+    public void onTakePicture(View view) {
+
+    }
+
+    public void onLogout(View view) {
+        NetApi.call(NetApi.getJsonParam(ProtocolUrl.userLogout), new BusinessCallback(this) {
+            @Override
+            public void subCallback(boolean flag, String json) {
+                if (isFinishing()) return;
+                if (!flag) {
+                    return;
+                }
+                showToast("已退出登陆");
+                SaveDataGlobal.remove(LoginActivity.LOGINNAME);
+                SaveDataGlobal.remove(LoginActivity.LOGINPWD);
+                SaveDataGlobal.setUserInfo(null);
+                setResult(Activity.RESULT_OK);
+                finish();
+
+            }
+        });
+    }
+
+    @Override
+    public void onNext(Map<String, Object> param) {
+        super.onNext(param);
+        final String phone = param.get("userPhone").toString();
+        NetApi.call(NetApi.getJsonParam(ProtocolUrl.userPhoneUpdate, param), new BusinessCallback(this) {
+            @Override
+            public void subCallback(boolean flag, String json) {
+                if (isFinishing()) return;
+                if (!flag) {
+                    return;
+                }
+                showToast("绑定成功");
+                UserInfo info = SaveDataGlobal.getUserInfo();
+                info.setUserPhone(phone);
+                info.setLoginName(phone);
+                SaveDataGlobal.putString(LoginActivity.LOGINNAME,phone);
+                finish();
+            }
+        });
+    }
 }

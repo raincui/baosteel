@@ -22,8 +22,6 @@ import com.baosight.lan.R;
  */
 public class MineFragment extends BaseFragment {
 
-    private UserInfo userInfo;
-
     private View rootView;
 
 
@@ -52,24 +50,39 @@ public class MineFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        userInfo = SaveDataGlobal.getUserInfo();
-        if(userInfo == null){
-            showToast("请先登陆");
-            startActivity(new Intent(getContext(), LoginActivity.class));
-            getActivity().finish();
-        }
+
         rootView = inflater.inflate(R.layout.fragment_mine, container, false);
         initView();
         return rootView;
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden)initView();
+    }
+
+    @Override
     protected void initView() {
         super.initView();
+        if(getActivity().isFinishing())return;
+        UserInfo userInfo = SaveDataGlobal.getUserInfo();
+        if(userInfo == null){
+            showToast("请先登陆");
+            getActivity().startActivity(new Intent(getActivity(), LoginActivity.class));
+            getActivity().finish();
+            return;
+        }
         TextView txt_name = findView(rootView,R.id.txt_name);
         txt_name.setText(userInfo.getUserName());
 
         TextView txt_phone = findView(rootView,R.id.txt_phone);
         txt_phone.setText(getString(R.string.mine_phone,userInfo.getUserPhone()));
+    }
+
+    @Override
+    public void refresh() {
+        super.refresh();
+        initView();
     }
 }

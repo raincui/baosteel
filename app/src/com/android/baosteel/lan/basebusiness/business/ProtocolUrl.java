@@ -104,6 +104,10 @@ public class ProtocolUrl {
      * 用户信息修改
      */
     public static String userSetting = base + "user/setting";
+    /**
+     * 用户手机修改
+     */
+    public static String userPhoneUpdate = base + "user/bindPhone";
 
     /**
      * 用户密码修改

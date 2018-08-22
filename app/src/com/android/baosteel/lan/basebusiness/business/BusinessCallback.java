@@ -4,6 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.android.baosteel.lan.basebusiness.util.LogUtil;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,6 +42,7 @@ public abstract class BusinessCallback {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            LogUtil.e(json);
             Toast.makeText(context, "网络请求超时", Toast.LENGTH_SHORT).show();
             subCallback(false,json);
         }

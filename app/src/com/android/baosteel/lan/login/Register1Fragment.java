@@ -15,6 +15,7 @@ import com.android.baosteel.lan.basebusiness.business.BusinessCallback;
 import com.android.baosteel.lan.basebusiness.business.NetApi;
 import com.android.baosteel.lan.basebusiness.business.ProtocolUrl;
 import com.android.baosteel.lan.basebusiness.util.AppUtil;
+import com.android.baosteel.lan.baseui.ui.BaseActivity;
 import com.android.baosteel.lan.baseui.ui.BaseFragment;
 import com.baosight.lan.R;
 
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A fragment with a Google +1 button.
@@ -30,18 +32,23 @@ import java.util.Map;
  */
 public class Register1Fragment extends BaseFragment {
 
-    private RegisterActivity activity;
+    private BaseActivity activity;
 
     private View rootView;
     private CheckBox box_agree;
     private View view_protocol;
+    private TextView btn_commit;
 
     private String phoneNum;
     private TextView txt_code;
     private EditText edit_code;
 
+
+    private static String ISFROMREGISTER = "isFromRegister";
+    private static String ISFROMMODIFYPHONE = "isFromModifyPhone";
+
     public Register1Fragment() {
-        // Required empty public constructor
+        // Required empty public constructo
     }
 
     /**
@@ -50,9 +57,12 @@ public class Register1Fragment extends BaseFragment {
      *
      * @return A new instance of fragment Register1Fragment.
      */
-    public static Register1Fragment newInstance() {
+
+    public static Register1Fragment newInstance(boolean isFromRegister,boolean isFromModifyPhone) {
         Register1Fragment fragment = new Register1Fragment();
         Bundle args = new Bundle();
+        args.putBoolean(ISFROMREGISTER,isFromRegister);
+        args.putBoolean(ISFROMMODIFYPHONE,isFromModifyPhone);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,7 +70,7 @@ public class Register1Fragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = (RegisterActivity) getActivity();
+        activity = (BaseActivity) getActivity();
     }
 
     @Override
@@ -68,6 +78,7 @@ public class Register1Fragment extends BaseFragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_register1, container, false);
         initView();
+        initListener();
         return rootView;
     }
 
@@ -84,11 +95,13 @@ public class Register1Fragment extends BaseFragment {
         txt_code = findView(rootView, R.id.txt_code);
         edit_code = findView(rootView, R.id.edit_code);
         view_protocol = findView(rootView, R.id.lly_protocol);
-        view_protocol.setVisibility(activity.isFromRegister() ? View.VISIBLE : View.GONE);
+        view_protocol.setVisibility(isFromRegister() ? View.VISIBLE : View.GONE);
+        btn_commit = findView(rootView,R.id.btn_commit);
+        btn_commit.setText(isFromModifyPhone()?"完成":"下一步");
     }
 
     public boolean isAgreeProtocol() {
-        return !activity.isFromRegister() || box_agree.isChecked();
+        return !isFromRegister() || box_agree.isChecked();
     }
 
     public void checkPhoneCode() {
@@ -106,7 +119,7 @@ public class Register1Fragment extends BaseFragment {
                 if (getActivity().isFinishing()) return;
                 if (!isAdded()) return;
                 if (flag) {
-                    activity.onNext();
+                    activity.onNext(putParam(new HashMap<String,Object>()));
                 }
             }
         });
@@ -121,7 +134,7 @@ public class Register1Fragment extends BaseFragment {
         }
         List<String> param = new ArrayList<>();
         param.add(phoneNum);
-        param.add(activity.isFromRegister() ? "0" : "1");
+        param.add(isFromRegister()||isFromModifyPhone() ? "0" : "1");
         NetApi.call(NetApi.getJsonParam(ProtocolUrl.userPhoneCode, param), new BusinessCallback(getContext()) {
             @Override
             public void subCallback(boolean flag, String json) {
@@ -161,9 +174,38 @@ public class Register1Fragment extends BaseFragment {
         }
     }
 
-    public void putParam(Map<String, Object> param) {
+    public Map<String, Object> putParam(Map<String, Object> param) {
         param.put("userPhone", phoneNum);
         param.put("loginName", phoneNum);
         param.put("validCode", edit_code.getText().toString());
+        return param;
+    }
+
+    private boolean isFromRegister(){
+        return getArguments().getBoolean(ISFROMREGISTER,false);
+    }
+    private boolean isFromModifyPhone(){
+        return getArguments().getBoolean(ISFROMMODIFYPHONE,false);
+    }
+
+    @Override
+    protected void initListener() {
+        super.initListener();
+        txt_code.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPhoneCode();
+            }
+        });
+        btn_commit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isAgreeProtocol()) {
+                    showToast("请先同意阅读协议");
+                    return;
+                }
+                checkPhoneCode();
+            }
+        });
     }
 }

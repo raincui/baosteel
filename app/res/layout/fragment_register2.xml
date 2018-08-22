@@ -2,7 +2,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="45dp">
+    android:paddingLeft="36dp"
+    android:paddingRight="36dp"
+    android:paddingBottom="36dp"
+    android:paddingTop="80dp">
 
     <RelativeLayout
         android:layout_width="match_parent"

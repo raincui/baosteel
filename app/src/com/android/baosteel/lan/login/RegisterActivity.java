@@ -39,19 +39,12 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected void initView() {
         super.initView();
-        register1Fragment = Register1Fragment.newInstance();
+        register1Fragment = Register1Fragment.newInstance(isFromRegister(), false);
         getSupportFragmentManager().beginTransaction().add(R.id.fragment, register1Fragment).commitAllowingStateLoss();
     }
 
-    public void onNext(View view) {
-        if (!register1Fragment.isAgreeProtocol()) {
-            showToast("请先同意阅读协议");
-            return;
-        }
-        register1Fragment.checkPhoneCode();
-    }
-
-    public void onNext(){
+    @Override
+    public void onNext(Map<String, Object> param) {
         getSupportFragmentManager().beginTransaction().hide(register1Fragment).commitAllowingStateLoss();
         if (register2Fragment == null) {
             register2Fragment = Register2Fragment.newInstance();
@@ -62,22 +55,17 @@ public class RegisterActivity extends BaseActivity {
         }
     }
 
-
-    public void onPhoneCode(View view) {
-        register1Fragment.onPhoneCode();
-    }
-
     public void onCommit(View view) {
-        if(!register2Fragment.isValidPassword())return;
-        Map<String,Object> param = new HashMap<>();
+        if (!register2Fragment.isValidPassword()) return;
+        Map<String, Object> param = new HashMap<>();
         register1Fragment.putParam(param);
         register2Fragment.putParam(param);
-        NetApi.call(NetApi.getJsonParam(isFromRegister()?ProtocolUrl.userRegister:ProtocolUrl.userPasswordReset,param), new BusinessCallback(this) {
+        NetApi.call(NetApi.getJsonParam(isFromRegister() ? ProtocolUrl.userRegister : ProtocolUrl.userPasswordReset, param), new BusinessCallback(this) {
             @Override
             public void subCallback(boolean flag, String json) {
-                if(isFinishing())return;
+                if (isFinishing()) return;
                 if (flag) {
-                    showToast(isFromRegister()?"注册成功":"密码已重置");
+                    showToast(isFromRegister() ? "注册成功" : "密码已重置");
                     SaveDataGlobal.remove("loginName");
                     SaveDataGlobal.remove("loginPwd");
                     finish();
@@ -92,7 +80,7 @@ public class RegisterActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    public boolean isFromRegister(){
-        return getIntent().getBooleanExtra("isRegister",false);
+    public boolean isFromRegister() {
+        return getIntent().getBooleanExtra("isRegister", false);
     }
 }

@@ -83,7 +83,7 @@ public class SaveDataGlobal {
 
     public static String getString(String key, String value) {
         if (Obj != null) {
-            return Obj.getString(key, value);
+            return Obj.getString(userId+"_"+key, value);
         }
         return null;
     }
@@ -249,12 +249,12 @@ public class SaveDataGlobal {
 
     public static void setUserInfo(UserInfo userInfo) {
         SaveDataGlobal.userInfo = userInfo;
-        setUserId(userInfo.getId());
+        setUserId(userInfo!=null?userInfo.getId():-1);
     }
 
     public static void remove(String key){
         if (Obj != null) {
-            Obj.remove(key);
+            Obj.remove(userId+"_"+key);
         }
     }
 }

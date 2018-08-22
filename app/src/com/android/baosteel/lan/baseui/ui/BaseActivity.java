@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.android.baosteel.lan.basebusiness.util.InputUtil;
 
+import java.util.Map;
+
 
 /**
  */
@@ -190,4 +192,6 @@ public class BaseActivity extends FragmentActivity {
     public void onBack(View view) {
         finish();
     }
+
+    public void onNext(Map<String,Object> param){}
 }

@@ -21,6 +21,7 @@ import com.android.baosteel.lan.basebusiness.util.AppUtil;
 import com.android.baosteel.lan.basebusiness.util.MD5;
 import com.android.baosteel.lan.basebusiness.util.SaveDataGlobal;
 import com.android.baosteel.lan.baseui.MainActivity;
+import com.android.baosteel.lan.baseui.ui.BaseActivity;
 import com.baosight.lan.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -46,8 +47,8 @@ public class LoginActivity extends Activity {
     private View mLoginFormView;
 
 
-    private String LOGINNAME = "loginName";
-    private String LOGINPWD = "loginPwd";
+    public static String LOGINNAME = "loginName";
+    public static String LOGINPWD = "loginPwd";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,6 @@ public class LoginActivity extends Activity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-
         String loginName = SaveDataGlobal.getString(LOGINNAME, "");
         String loginPwd = SaveDataGlobal.getString(LOGINPWD, "");
         if (!TextUtils.isEmpty(loginName)) {

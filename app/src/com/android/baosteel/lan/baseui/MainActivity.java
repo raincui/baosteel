@@ -1,9 +1,13 @@
 package com.android.baosteel.lan.baseui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RadioGroup;
 
+import com.android.baosteel.lan.basebusiness.entity.UserInfo;
+import com.android.baosteel.lan.basebusiness.util.SaveDataGlobal;
 import com.android.baosteel.lan.baseui.ui.BaseActivity;
 import com.android.baosteel.lan.mine.MineFragment;
 import com.android.baosteel.lan.mine.MineNewsActivity;
@@ -16,6 +20,8 @@ public class MainActivity extends BaseActivity {
 
     NewsFragment newsFragment;
     MineFragment mineFragment;
+
+    public static final int request_code_modify = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +70,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void onMineInfo(View view){
-
+        MineNewsActivity.start(this,"修改个人资料",MineNewsActivity.FRAGMENT_MINE_MODIFY, request_code_modify);
     }
     public void onMineCollect(View view){
         MineNewsActivity.start(this,"我的收藏",MineNewsActivity.FRAGMENT_MINE_COLLECT);
@@ -79,5 +85,23 @@ public class MainActivity extends BaseActivity {
         MineNewsActivity.start(this,"设置",MineNewsActivity.FRAGMENT_MINE_SETTING);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode!= Activity.RESULT_OK)return;
+        switch(requestCode){
+            case request_code_modify:
+                UserInfo userInfo= SaveDataGlobal.getUserInfo();
+                if(userInfo == null){
+                    RadioGroup radioGroup = findView(R.id.rg_menu);
+                    radioGroup.check(R.id.rb_1);
+                    onNews(null);
 
+                }else{
+                    if (mineFragment!=null)
+                    mineFragment.refresh();
+                }
+                break;
+        }
+    }
 }
