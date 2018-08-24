@@ -1,19 +1,35 @@
 package com.android.baosteel.lan.mine;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.baosteel.lan.basebusiness.entity.UserInfo;
+import com.android.baosteel.lan.basebusiness.util.Base64Util;
 import com.android.baosteel.lan.basebusiness.util.SaveDataGlobal;
 import com.android.baosteel.lan.baseui.ui.BaseFragment;
 import com.android.baosteel.lan.login.LoginActivity;
 import com.baosight.lan.R;
+import com.facebook.drawee.drawable.ScalingUtils;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.RoundingParams;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +39,7 @@ import com.baosight.lan.R;
 public class MineFragment extends BaseFragment {
 
     private View rootView;
-
+    private SimpleDraweeView img_head;
 
     public MineFragment() {
     }
@@ -66,6 +82,7 @@ public class MineFragment extends BaseFragment {
     protected void initView() {
         super.initView();
         if(getActivity().isFinishing())return;
+        img_head = findView(rootView,R.id.img_head);
         UserInfo userInfo = SaveDataGlobal.getUserInfo();
         if(userInfo == null){
             showToast("请先登陆");
@@ -73,6 +90,10 @@ public class MineFragment extends BaseFragment {
             getActivity().finish();
             return;
         }
+        if(!TextUtils.isEmpty(userInfo.getUserPic())){
+            img_head.setImageURI(bitmap2uri(getContext(),base642Bitmap(userInfo.getUserPic())));
+        }
+
         TextView txt_name = findView(rootView,R.id.txt_name);
         txt_name.setText(userInfo.getUserName());
 
@@ -84,5 +105,23 @@ public class MineFragment extends BaseFragment {
     public void refresh() {
         super.refresh();
         initView();
+    }
+
+    public Bitmap base642Bitmap(String base64) {
+        byte[] bytes = Base64Util.decode(base64, Base64Util.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+        return bitmap;
+    }
+
+    public static Uri bitmap2uri(Context c, Bitmap b) {
+        File path = new File(c.getCacheDir() + File.separator + System.currentTimeMillis() + ".jpg");
+        try {
+            OutputStream os = new FileOutputStream(path);
+            b.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            os.close();
+            return Uri.fromFile(path);
+        } catch (Exception ignored) {
+        }
+        return null;
     }
 }

@@ -14,7 +14,6 @@ import com.android.baosteel.lan.basebusiness.business.ProtocolUrl;
 import com.android.baosteel.lan.basebusiness.entity.UserInfo;
 import com.android.baosteel.lan.basebusiness.util.SaveDataGlobal;
 import com.android.baosteel.lan.baseui.ui.BaseActivity;
-import com.android.baosteel.lan.baseui.ui.BaseFragment;
 import com.android.baosteel.lan.login.LoginActivity;
 import com.android.baosteel.lan.login.Register1Fragment;
 import com.android.baosteel.lan.login.RegisterActivity;
@@ -25,8 +24,6 @@ import com.android.baosteel.lan.news.comment.MyCommentFragment;
 import com.baosight.lan.R;
 
 import java.util.Map;
-
-import static com.android.baosteel.lan.baseui.MainActivity.request_code_modify;
 
 /**
  * @author yulong.cui
@@ -43,6 +40,7 @@ public class MineNewsActivity extends BaseActivity {
     public final static int FRAGMENT_MINE_FONT = 1006;
     public final static int FRAGMENT_MINE_MODIFY = 1007;
     public final static int FRAGMENT_MINE_PHONE = 1008;
+    public final static int FRAGMENT_MINE_NICK = 1009;
 
     @Override
     protected void initTitle() {
@@ -83,7 +81,7 @@ public class MineNewsActivity extends BaseActivity {
     protected void initData() {
         super.initData();
         int fragmentId = getIntent().getIntExtra("fragment", FRAGMENT_MINE_COLLECT);
-        BaseFragment fragment;
+        Fragment fragment;
         switch (fragmentId) {
             case FRAGMENT_MINE_ANSWER:
                 fragment = new MyAnswerFragment();
@@ -107,11 +105,14 @@ public class MineNewsActivity extends BaseActivity {
                 fragment = new FontFragment();
                 break;
             case FRAGMENT_MINE_MODIFY:
-                fragment = new ModifyFragment();
+                fragment = ModifyFragment.newInstance();
                 setResult(Activity.RESULT_OK);
                 break;
             case FRAGMENT_MINE_PHONE:
                 fragment = Register1Fragment.newInstance(false, true);
+                break;
+            case FRAGMENT_MINE_NICK:
+                fragment = NickNameFragment.newInstance();
                 break;
             default:
                 fragment = new MyCollectFragment();
@@ -148,7 +149,7 @@ public class MineNewsActivity extends BaseActivity {
     }
 
     public void onPhone(View view) {
-        MineNewsActivity.start(this,"修改手机",MineNewsActivity.FRAGMENT_MINE_PHONE);
+        MineNewsActivity.start(this, "修改手机", MineNewsActivity.FRAGMENT_MINE_PHONE);
     }
 
     public void onPassword(View view) {
@@ -158,11 +159,7 @@ public class MineNewsActivity extends BaseActivity {
     }
 
     public void onNickName(View view) {
-
-    }
-
-    public void onTakePicture(View view) {
-
+        start(this, "修改昵称", FRAGMENT_MINE_NICK);
     }
 
     public void onLogout(View view) {
@@ -199,7 +196,7 @@ public class MineNewsActivity extends BaseActivity {
                 UserInfo info = SaveDataGlobal.getUserInfo();
                 info.setUserPhone(phone);
                 info.setLoginName(phone);
-                SaveDataGlobal.putString(LoginActivity.LOGINNAME,phone);
+                SaveDataGlobal.putString(LoginActivity.LOGINNAME, phone);
                 finish();
             }
         });

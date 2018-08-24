@@ -26,6 +26,7 @@
     <color name="txt999999">#999999</color>
     <color name="txtblue">#004b9d</color>
     <color name="divider">#dbdbdb</color>
+    <color name="white">#ffffff</color>
     <color name="background">#f7f7f7</color>
 
 </resources>

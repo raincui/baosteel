@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="36dp"
+    android:paddingRight="36dp"
+    android:paddingBottom="36dp"
+    android:paddingTop="80dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <EditText
+            android:id="@+id/edit_nick"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/lj_color_transparent"
+            android:gravity="center_vertical"
+            android:hint="请输入昵称"
+            android:maxLines="1"
+            android:textColor="@android:color/black"
+            android:textColorHint="@color/divider"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/lj_color_divider" />
+    </RelativeLayout>
+
+
+
+    <Button
+        android:id="@+id/btn_commit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:background="@drawable/selector_btn_grey_blue"
+        android:text="完成"/>
+</LinearLayout>

@@ -11,6 +11,7 @@ public class UserInfo {
     private String userName;
     private String userPhone;
     private String loginName;
+    private String userPic;
 
     public int getId() {
         return id;
@@ -59,5 +60,13 @@ public class UserInfo {
 
     public String getLoginName() {
         return loginName;
+    }
+
+    public String getUserPic() {
+        return userPic;
+    }
+
+    public void setUserPic(String userPic) {
+        this.userPic = userPic;
     }
 }

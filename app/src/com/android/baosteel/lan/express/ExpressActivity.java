@@ -1,18 +1,11 @@
 package com.android.baosteel.lan.express;
 
 import android.os.Bundle;
-import android.os.Process;
-import android.util.Log;
-import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.android.baosteel.lan.basebusiness.business.BusinessCallback;
-import com.android.baosteel.lan.basebusiness.business.BusinessHandler;
-import com.android.baosteel.lan.basebusiness.business.NetApi;
 import com.android.baosteel.lan.baseui.ui.BaseActivity;
 import com.android.baosteel.lan.news.NewsListFragment;
-import com.baosight.iplat4mlibrary.core.ei.eiinfo.EiInfo;
 import com.baosight.lan.R;
 
 /**
@@ -80,7 +73,7 @@ public class ExpressActivity extends BaseActivity {
         if (nFragment == null) {
             nFragment = NewsListFragment.newInstance();
             Bundle bundle = new Bundle();
-            bundle.putString("type","4");
+            bundle.putString("type", "4");
             nFragment.setArguments(bundle);
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment, nFragment).commitAllowingStateLoss();

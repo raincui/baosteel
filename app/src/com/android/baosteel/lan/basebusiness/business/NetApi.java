@@ -1,22 +1,14 @@
 package com.android.baosteel.lan.basebusiness.business;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.android.baosteel.lan.basebusiness.entity.UserInfo;
 import com.android.baosteel.lan.basebusiness.http.OKHttpClientUtil;
 import com.android.baosteel.lan.basebusiness.http.OkHttpAsyncCallback;
 import com.android.baosteel.lan.basebusiness.util.LogUtil;
 import com.android.baosteel.lan.basebusiness.util.SaveDataGlobal;
-import com.baosight.iplat4mandroid.login.UserSession;
-import com.baosight.iplat4mlibrary.core.ei.agent.EiServiceAgent;
-import com.baosight.iplat4mlibrary.core.ei.eiinfo.EiInfo;
-import com.baosight.iplat4mlibrary.core.uitls.Iplat4mHelper;
-import com.baosight.iplat4mlibrary.core.uitls.json.JSONObjectUtil;
-import com.baosight.iplat4mlibrary.login.HelperConfig;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -46,13 +38,13 @@ public class NetApi {
             boolean isGet = jsonObject.optBoolean("isGet");
             String url = jsonObject.optString("url");
             JSONObject paramJ = jsonObject.getJSONObject("data");
-            Map<String,Object> param = new Gson().fromJson(paramJ.toString(),Map.class);
-            if(param!=null){
+            Map<String, Object> param = new Gson().fromJson(paramJ.toString(), Map.class);
+            if (param != null) {
                 param.put("userId", SaveDataGlobal.getUserId());
                 //处理页码从0开始
                 Object pageNo = param.get("pageNo");
-                if(pageNo!=null){
-                    param.put("pageNo",Double.valueOf(pageNo.toString())-1);
+                if (pageNo != null) {
+                    param.put("pageNo", Double.valueOf(pageNo.toString()) - 1);
                 }
             }
 
@@ -67,32 +59,32 @@ public class NetApi {
                 @Override
                 public void onData(int Tag, String data) {
                     LogUtil.e(data);
-                   handler.obtainMessage(0,data).sendToTarget();
+                    handler.obtainMessage(0, data).sendToTarget();
 
                 }
 
                 @Override
                 public void onFailed(int tag, Exception e) {
                     LogUtil.e(e.getMessage());
-                    handler.obtainMessage(0,"").sendToTarget();
+                    handler.obtainMessage(0, "").sendToTarget();
                 }
             };
             LogUtil.e(param.toString());
             UserInfo userInfo = SaveDataGlobal.getUserInfo();
 
-            Map<String,String> heads = new HashMap<>();
-            if(userInfo!=null){
-                heads.put("x-user","2/"+userInfo.getToken());
-            }else{
-                heads.put("x-user","0/default");
+            Map<String, String> heads = new HashMap<>();
+            if (userInfo != null) {
+                heads.put("x-user", "2/" + userInfo.getToken());
+            } else {
+                heads.put("x-user", "0/default");
             }
 
-            if(isGet){
-                param.put("domainId",3);
-                OKHttpClientUtil.getEnQueue(url,0,callback1,param,heads);
-            }else {
-                url+="?domainId=3";
-                OKHttpClientUtil.postEnQueue(url,0,callback1,param,heads);
+            if (isGet) {
+                param.put("domainId", 3);
+                OKHttpClientUtil.getEnQueue(url, 0, callback1, param, heads);
+            } else {
+                url += "?domainId=3";
+                OKHttpClientUtil.postEnQueue(url, 0, callback1, param, heads);
             }
             LogUtil.e(url);
 
@@ -106,9 +98,11 @@ public class NetApi {
     public static JSONObject getJsonParam(String requestUrl) {
         return getJsonParam(requestUrl, null, null, true);
     }
-    public static JSONObject getJsonParam(String requestUrl,boolean isGet) {
+
+    public static JSONObject getJsonParam(String requestUrl, boolean isGet) {
         return getJsonParam(requestUrl, null, null, isGet);
     }
+
     public static JSONObject getJsonParam(String requestUrl, List<String> param) {
         return getJsonParam(requestUrl, param, null, true);
     }
