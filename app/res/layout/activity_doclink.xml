@@ -63,7 +63,7 @@
             android:background="@color/divider" />
     </RelativeLayout>
 
-    <com.android.baosteel.lan.baseui.customview.LJWebView
+    <com.android.yl.baowu.baseui.customview.LJWebView
         android:id="@+id/web"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

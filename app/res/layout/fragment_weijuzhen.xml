@@ -3,12 +3,12 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
-    <com.android.baosteel.lan.baseui.customview.LJRefreshLayout
+    <com.android.yl.baowu.baseui.customview.LJRefreshLayout
         android:id="@+id/view_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="10dp">
-        <com.android.baosteel.lan.baseui.customview.LJRefreshListView
+        <com.android.yl.baowu.baseui.customview.LJRefreshListView
             android:id="@+id/list_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -19,5 +19,5 @@
             android:fadingEdge="none"
             android:dividerHeight="0.1dp"/>
 
-    </com.android.baosteel.lan.baseui.customview.LJRefreshLayout>
+    </com.android.yl.baowu.baseui.customview.LJRefreshLayout>
 </LinearLayout>

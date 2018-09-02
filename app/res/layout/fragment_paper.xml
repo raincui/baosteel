@@ -22,13 +22,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.android.baosteel.lan.baseui.customview.LJRefreshLayout
+        <com.android.yl.baowu.baseui.customview.LJRefreshLayout
             android:id="@+id/view_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone">
 
-            <com.android.baosteel.lan.baseui.customview.LJRefreshListView
+            <com.android.yl.baowu.baseui.customview.LJRefreshListView
                 android:id="@+id/list_refresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -38,7 +38,7 @@
                 android:listSelector="@android:color/transparent"
                 android:overScrollMode="never" />
 
-        </com.android.baosteel.lan.baseui.customview.LJRefreshLayout>
+        </com.android.yl.baowu.baseui.customview.LJRefreshLayout>
 
         <LinearLayout
             android:id="@+id/lly_paper"
@@ -47,7 +47,7 @@
             android:orientation="vertical"
             android:visibility="visible">
 
-            <com.android.baosteel.lan.baseui.customview.StackFlow
+            <com.android.yl.baowu.baseui.customview.StackFlow
                 android:id="@+id/flow_paper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -39,7 +39,7 @@
                 android:textSize="12sp" />
         </RelativeLayout>
 
-        <com.android.baosteel.lan.baseui.customview.LJWebView
+        <com.android.yl.baowu.baseui.customview.LJWebView
             android:id="@+id/web"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -98,7 +98,7 @@
                 android:padding="10dp"
                 android:src="@drawable/selector_btn_love" />
 
-            <com.android.baosteel.lan.baseui.customview.DotIconView
+            <com.android.yl.baowu.baseui.customview.DotIconView
                 android:id="@+id/btn_good"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
                 android:layout_toLeftOf="@+id/btn_talk"
                 android:padding="10dp" />
 
-            <com.android.baosteel.lan.baseui.customview.DotIconView
+            <com.android.yl.baowu.baseui.customview.DotIconView
                 android:id="@+id/btn_talk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

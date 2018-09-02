@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.android.baosteel.lan.baseui.customview.DragSortListView
+    <com.android.yl.baowu.baseui.customview.DragSortListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

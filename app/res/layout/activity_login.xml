@@ -7,7 +7,7 @@
     android:paddingBottom="15dp"
     android:paddingLeft="36dp"
     android:paddingRight="36dp"
-    tools:context="com.android.baosteel.lan.login.LoginActivity">
+    tools:context="com.android.yl.baowu.login.LoginActivity">
 
 
     <!-- Login progress -->

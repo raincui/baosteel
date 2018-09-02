@@ -12,7 +12,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <com.android.baosteel.lan.baseui.customview.PagerSlidingTabStrip
+        <com.android.yl.baowu.baseui.customview.PagerSlidingTabStrip
             android:id="@+id/steel_tabs"
             android:layout_width="0dp"
             android:layout_height="48dp"
