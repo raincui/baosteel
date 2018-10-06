@@ -59,6 +59,10 @@ public class ProtocolUrl {
      */
     public static String searchNews = base + "content/search";
     /**
+     * 轮播
+     */
+    public static String getColoredNews = base + "content/search";
+    /**
      * 获取评论列表
      */
     public static String getCommentList = base + "comment/list";

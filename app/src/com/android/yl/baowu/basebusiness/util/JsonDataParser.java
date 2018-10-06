@@ -75,7 +75,7 @@ public class JsonDataParser {
         info.setReadCount(jo.optInt("hits"));
         info.setRecommend(jo.optString("isRecommend"));
 
-        JSONArray pics = jo.optJSONArray("fileUrl");
+        JSONArray pics = jo.optJSONArray("imageUrl");
         List<PicInfo> picList = new ArrayList<>();
         if(pics!=null&&pics.length()>0){
             for(int l =0;l<pics.length();l++){

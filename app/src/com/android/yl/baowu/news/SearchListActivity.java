@@ -113,9 +113,6 @@ public class SearchListActivity extends BaseActivity implements AdapterView.OnIt
     }
 
     private void loadData(int page, BusinessCallback callback) {
-//            String keyword = URLEncoder.encode(mKeyword, "utf-8");
-//            StringBuilder sb = new StringBuilder();
-//            sb.append("/").append(keyword).append("/").append(page);
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> subParam = new HashMap<>();
         subParam.put("keyword", mKeyword);

@@ -53,6 +53,7 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
     private View viewMain;
     private LJRefreshLayout view_refresh;
     private LJRefreshListView list_refresh;
+    private View view_banner;
     private MyAdapter mAdapter;
 
     private boolean isRecommend;//是否是推荐
@@ -94,6 +95,13 @@ public class NewsListFragment extends BaseFragment implements AdapterView.OnItem
         super.initView();
         view_refresh = findView(viewMain, R.id.view_refresh);
         list_refresh = findView(viewMain, R.id.list_refresh);
+        view_banner = findView(viewMain,R.id.frame_banner);
+        if(isRecommend){
+            view_banner.setVisibility(View.VISIBLE);
+            getChildFragmentManager().beginTransaction().replace(R.id.frame_banner,TopNewsFragment.newInstance()).commitAllowingStateLoss();
+        }else{
+            view_banner.setVisibility(View.GONE);
+        }
     }
 
     @Override
