@@ -95,6 +95,11 @@ public class ProtocolUrl {
     public static String userLogin = base + "user/login";
 
     /**
+     * 用户登陆
+     */
+    public static String userAuth = base + "thirdapp/login";
+
+    /**
      * 用户登出
      */
     public static String userLogout = base + "user/logout";

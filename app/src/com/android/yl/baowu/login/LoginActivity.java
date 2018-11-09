@@ -1,5 +1,6 @@
 package com.android.yl.baowu.login;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -7,12 +8,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.android.yl.baowu.R;
 import com.android.yl.baowu.basebusiness.business.BusinessCallback;
 import com.android.yl.baowu.basebusiness.business.NetApi;
 import com.android.yl.baowu.basebusiness.business.ProtocolUrl;
@@ -21,9 +25,12 @@ import com.android.yl.baowu.basebusiness.util.AppUtil;
 import com.android.yl.baowu.basebusiness.util.MD5;
 import com.android.yl.baowu.basebusiness.util.SaveDataGlobal;
 import com.android.yl.baowu.baseui.MainActivity;
-import com.android.yl.baowu.R;
+import com.android.yl.baowu.mine.MineNewsActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +38,9 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.android.yl.baowu.mine.MineNewsActivity.FRAGMENT_MINE_PHONE;
+import static com.umeng.commonsdk.stateless.UMSLEnvelopeBuild.mContext;
 
 
 /**
@@ -49,10 +59,21 @@ public class LoginActivity extends Activity {
     public static String LOGINNAME = "loginName";
     public static String LOGINPWD = "loginPwd";
 
+    UMShareAPI mShareAPI;
+    private static int REQUEST_CODE_PHONE = 1000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
+            ActivityCompat.requestPermissions(this, mPermissionList, 123);
+        }
+        mShareAPI = UMShareAPI.get(this);
+
         // Set up the login form.
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -214,17 +235,123 @@ public class LoginActivity extends Activity {
     }
 
     public void onWechat(View view) {
-
+        mShareAPI.getPlatformInfo(this, SHARE_MEDIA.WEIXIN, authListener);
     }
 
     public void onQQ(View view) {
-
+        mShareAPI.getPlatformInfo(this, SHARE_MEDIA.QQ, authListener);
     }
 
     public void onXina(View view) {
-
+        mShareAPI.getPlatformInfo(this, SHARE_MEDIA.SINA, authListener);
     }
 
+    UMAuthListener authListener = new UMAuthListener() {
+        /**
+         * @desc 授权开始的回调
+         * @param platform 平台名称
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+
+        }
+
+        /**
+         * @desc 授权成功的回调
+         * @param platform 平台名称
+         * @param action 行为序号，开发者用不上
+         * @param data 用户资料返回
+         */
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+            Toast.makeText(mContext, "成功了", Toast.LENGTH_LONG).show();
+            String uid = data.get("uid");
+            String name = data.get("name");
+            String accessToken = data.get("accessToken");
+            int type = platform == SHARE_MEDIA.QQ ? 4 : (platform == SHARE_MEDIA.WEIXIN ? 2 : 3);
+            auth(name, uid, accessToken, type);
+        }
+
+        /**
+         * @desc 授权失败的回调
+         * @param platform 平台名称
+         * @param action 行为序号，开发者用不上
+         * @param t 错误原因
+         */
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+
+            Toast.makeText(mContext, "失败：" + t.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+        /**
+         * @desc 授权取消的回调
+         * @param platform 平台名称
+         * @param action 行为序号，开发者用不上
+         */
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            Toast.makeText(mContext, "取消了", Toast.LENGTH_LONG).show();
+        }
+    };
+
+    /**
+     * 三方登陆授权
+     *
+     * @param userName
+     * @param openId
+     * @param accessToken
+     */
+    private void auth(String userName, String openId, String accessToken, int type) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("userName", userName);
+        param.put("openId", openId);
+        param.put("accessToken", accessToken);
+        param.put("userType", type);
+        NetApi.call(NetApi.getJsonParam(ProtocolUrl.userAuth, param), new BusinessCallback(this) {
+            @Override
+            public void subCallback(boolean flag, String json) {
+                if (isFinishing()) return;
+                showProgress(false);
+                if (!flag) {
+                    mPasswordView.requestFocus();
+                    return;
+                }
+                try {
+                    JSONObject jo = new JSONObject(json);
+                    Type type = TypeToken.get(UserInfo.class).getType();
+                    UserInfo info = new Gson().fromJson(jo.optString("data"), type);
+                    SaveDataGlobal.setUserInfo(info);
+                    if (TextUtils.isEmpty(info.getUserPhone())) {
+                        MineNewsActivity.start(LoginActivity.this, "绑定手机", FRAGMENT_MINE_PHONE, REQUEST_CODE_PHONE);
+                    } else {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_PHONE) {
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                finish();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+    }
 
 }
 

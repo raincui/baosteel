@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:img="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="170dp"
+    android:orientation="vertical">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/img_icon"
+        android:layout_width="match_parent"
+        img:placeholderImage="@drawable/default_pic"
+        img:placeholderImageScaleType = "fitXY"
+        android:layout_height="170dp" />
+
+
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="宝武未来如何发展"
+        android:textColor="@color/white"
+        android:layout_marginBottom="5dp"
+        android:textSize="20sp" />
+
+
+
+</RelativeLayout>

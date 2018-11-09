@@ -197,6 +197,7 @@ public class MineNewsActivity extends BaseActivity {
                 info.setUserPhone(phone);
                 info.setLoginName(phone);
                 SaveDataGlobal.putString(LoginActivity.LOGINNAME, phone);
+                setResult(Activity.RESULT_OK);
                 finish();
             }
         });
